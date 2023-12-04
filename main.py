@@ -1,23 +1,11 @@
 # Importing essential modules
 from PyQt6 import QtWidgets, uic
 from PyQt6.QtCore import QDate
-from PyQt6.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget, QHeaderView, QPushButton, QLineEdit
+from PyQt6.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget, QHeaderView, QPushButton, QLineEdit,QMessageBox
 import sys
+import connection_string
+import customer
 import pyodbc
-
-# # Replace these with your own database connection details
-server = 'DESKTOP-6367D0S'
-database = 'POSHAAK'  # Name of your Northwind database
-use_windows_authentication = False  # Set to True to use Windows Authentication
-username = 'sa'  # Specify a username if not using Windows Authentication
-password = 'anasking'  # Specify a password if not using Windows Authentication
-
-
-# # Create the connection string based on the authentication method chosen
-if use_windows_authentication:
-    connection_string = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};Trusted_Connection=yes;'
-else:
-    connection_string = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
 
 # # Main Window Class
 class UI(QtWidgets.QMainWindow):
@@ -30,72 +18,24 @@ class UI(QtWidgets.QMainWindow):
         self.loginButton.clicked.connect(self.login)
 
         # if the user wants to signup
-        self.loginButton=self.findChild(QPushButton,"signupbutton")
-        self.loginButton.clicked.connect(self.signup)
+        self.signupButton = self.findChild(QPushButton,"signupbutton")
+        self.signupButton.clicked.connect(self.signup)
+
+    def login(self):
+        self.login1 = customer.CustomerInterface()
+        self.login1.login()
+        self.login1.show()
+    def signup(self):
+        self.signup1 = customer.CustomerInterface()
+        self.signup1.signup()
+        self.signup1.show()
+
 
 #signup function for custome 
-    def signup(self):
-        uic.loadUi('signup_Form.ui',self)
-      
-        userEmail =  self.findChild(QLineEdit, "email").text()
-        firstName =  self.findChild(QLineEdit, "firstname").text()
-        lastName =   self.findChild(QLineEdit, "lastname").text()
-        password =   self.findChild(QLineEdit, "pass").text()
-        print(userEmail, password)
+   
+     
 
-        connection = pyodbc.connect(
-                connection_string
-            )
-
-        cursor = connection.cursor()
-
-            # TODO: Write SQL query to fetch orders data
-       
-    #     cursor.execute("INSERT INTO customers values(?,?,?,?);" , (lastName, userEmail, password, 'normal'))
-    #     connection.commit()
-
-    #     # Retrieve the newly inserted customer ID
-    #     cursor.execute("SELECT max(id) AS customerId from customers")
-    #     result = cursor.fetchone()
-    #     customer_id = result[0]
-
-    #     # Show a message box with the customer ID
-    #     QtWidgets.QMessageBox.information(
-    #         self, "customer Inserted", f"Customer ID : {customer_id} has been inserted successfully.")
-
-    #     # Close the database connection
-    #     connection.close()
-    #   # login function  
-    def login(self):
-        userName=  self.findChild(QLineEdit,"userName").text()# if nothing is entered then value is ''
-        user_password = self.findChild(QLineEdit,"password").text()  ##  if nothing is entered then value is ''
-        print(userName)
-        print(user_password)
-
-
-        connection = pyodbc.connect(
-                connection_string
-            )
-
-        cursor = connection.cursor()
-
-            # TODO: Write SQL query to fetch orders data
-       
-        cursor.execute("SELECT CASE WHEN EXISTS (SELECT 1 FROM customers WHERE last_name = ? AND password = ?) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END AS UserExists;", (userName, user_password))
-
-         
-        user_exists = cursor.fetchone()[0]  # Fetch the result of EXISTS check
-
-        connection.close()
-
-
-    def mainView(self):
-        # Perform actions when the user exists
-        print("User exists. Performing additional actions...")
-        # Call other functions or perform necessary actions here
-    
-
-def main():
+def main(): 
     app = QApplication(sys.argv)
     window = UI()
     window.show()
@@ -570,7 +510,7 @@ if __name__ == "__main__":
 #         Customer ID, Employee ID, shipping details, and others. It constructs an SQL
 #         query with parameters to insert a new order into the 'Orders' table of the
 #         Northwind database. After successfully inserting the order, it retrieves the
-#         newly assigned Order ID and displays it in a message box.
+#         newly assigned Order ID and displays it in a message boself.CustomerIDx.
 
 #         Note:
 #         - Ensure that the relevant input fields are correctly configured in the UI.

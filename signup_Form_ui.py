@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'd:\Third Semester files\database\PROJECT\signup_Form.ui'
+# Form implementation generated from reading ui file 'd:\Third Semester files\database\project POSHAAK final\POSHAAK-database\signup_Form.ui'
 #
 # Created by: PyQt6 UI code generator 6.5.2
 #
