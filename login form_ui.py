@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'd:\Third Semester files\database\PROJECT\login form.ui'
+# Form implementation generated from reading ui file 'd:\Third Semester files\database\project POSHAAK final\POSHAAK-database\login form.ui'
 #
 # Created by: PyQt6 UI code generator 6.5.2
 #
@@ -19,7 +19,7 @@ class Ui_MainWindow(object):
         self.widget.setGeometry(QtCore.QRect(20, 30, 501, 521))
         self.widget.setObjectName("widget")
         self.label = QtWidgets.QLabel(parent=self.widget)
-        self.label.setGeometry(QtCore.QRect(10, 10, 481, 511))
+        self.label.setGeometry(QtCore.QRect(-10, 30, 481, 511))
         self.label.setStyleSheet("border-image: url(:/images/background.jpeg);\n"
 "border-radius: 25px;")
         self.label.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
@@ -127,13 +127,13 @@ class Ui_MainWindow(object):
 "}")
         self.signupbutton.setObjectName("signupbutton")
         self.label_2 = QtWidgets.QLabel(parent=self.widget)
-        self.label_2.setGeometry(QtCore.QRect(10, 20, 471, 481))
+        self.label_2.setGeometry(QtCore.QRect(20, 50, 471, 481))
         self.label_2.setStyleSheet("background-color:rgba(0,0,0,120);\n"
 "border-radius: 15px;")
         self.label_2.setText("")
         self.label_2.setObjectName("label_2")
-        self.label.raise_()
         self.label_2.raise_()
+        self.label.raise_()
         self.userName.raise_()
         self.password.raise_()
         self.loginbutton.raise_()

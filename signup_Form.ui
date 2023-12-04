@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>799</width>
-    <height>771</height>
+    <height>700</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <x>20</x>
       <y>60</y>
       <width>381</width>
-      <height>471</height>
+      <height>511</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -64,7 +64,7 @@ padding-bottom:2px;
       <x>20</x>
       <y>60</y>
       <width>381</width>
-      <height>471</height>
+      <height>521</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -224,9 +224,9 @@ padding-bottom:2px;
     <property name="geometry">
      <rect>
       <x>400</x>
-      <y>60</y>
-      <width>351</width>
-      <height>471</height>
+      <y>50</y>
+      <width>381</width>
+      <height>511</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -235,6 +235,47 @@ border-bottom-right-radius: 50px;</string>
     </property>
     <property name="text">
      <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="signupButton">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>470</y>
+      <width>121</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
+    <property name="tabletTracking">
+     <bool>true</bool>
+    </property>
+    <property name="text">
+     <string>SIGN UP</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="cancelButton">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>470</y>
+      <width>121</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
+    <property name="tabletTracking">
+     <bool>true</bool>
+    </property>
+    <property name="text">
+     <string>CANCEL</string>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
     </property>
    </widget>
    <zorder>label_2</zorder>
@@ -246,6 +287,8 @@ border-bottom-right-radius: 50px;</string>
    <zorder>lineEdit_4</zorder>
    <zorder>pass</zorder>
    <zorder>label_5</zorder>
+   <zorder>signupButton</zorder>
+   <zorder>cancelButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

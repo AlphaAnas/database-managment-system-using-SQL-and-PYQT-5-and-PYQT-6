@@ -26,6 +26,7 @@ class UI(QtWidgets.QMainWindow):
         self.login1.login()
         self.login1.show()
     def signup(self):
+
         self.signup1 = customer.CustomerInterface()
         self.signup1.signup()
         self.signup1.show()

@@ -10,13 +10,14 @@ class CustomerInterface(QtWidgets.QMainWindow):
         def __init__(self):
             # Call the inherited classes __init__ method
             super(CustomerInterface, self).__init__() 
+           
 
 
 
 
         # Load the .ui file
         def signup(self):
-                uic.loadUi('signup_Form.ui',self)
+                uic.loadUi("signup_Form.ui",self)
             
                 self.userEmail =  self.findChild(QLineEdit, "email").text()
                 self.firstName =  self.findChild(QLineEdit, "firstname").text()
@@ -26,8 +27,9 @@ class CustomerInterface(QtWidgets.QMainWindow):
                 self.password_field.setEchoMode(QLineEdit.EchoMode.Password)
                 print(self.firstName)
 
-                self.signupButton = self.findChild(QPushButton, "signupButton")
-                self.signupButton.clicked.connect(self.insertCustomer)
+                self.signupButton1 = self.findChild(QPushButton, "signupButton")
+                print(self.signupButton1)  # Check if this prints the correct button
+                self.signupButton1.clicked.connect(self.insertCustomer)
                 self.cancel = self.findChild(QPushButton, "cancelButton")
                 self.cancel.clicked.connect(self.close)
 
