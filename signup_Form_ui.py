@@ -35,7 +35,7 @@ class Ui_MainWindow(object):
 "")
         self.firstname.setObjectName("firstname")
         self.label_4 = QtWidgets.QLabel(parent=self.centralwidget)
-        self.label_4.setGeometry(QtCore.QRect(20, 60, 381, 521))
+        self.label_4.setGeometry(QtCore.QRect(20, 50, 381, 521))
         self.label_4.setStyleSheet("background-color:rgba(0,0,0,80);\n"
 "border-top-left-radius: 50px;")
         self.label_4.setText("")

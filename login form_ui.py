@@ -87,24 +87,8 @@ class Ui_MainWindow(object):
 "}")
         self.loginbutton.setCheckable(False)
         self.loginbutton.setObjectName("loginbutton")
-        self.forgotbutton = QtWidgets.QPushButton(parent=self.widget)
-        self.forgotbutton.setGeometry(QtCore.QRect(180, 400, 141, 28))
-        font = QtGui.QFont()
-        font.setPointSize(9)
-        self.forgotbutton.setFont(font)
-        self.forgotbutton.setStyleSheet("QPushButton#pushButton_2{\n"
-"color:rgba(255,255,255,230);\n"
-"background-color: rgba(200, 100, 100, 130); \n"
-"}\n"
-"\n"
-"QPushButton#pushButton_2:hover{\n"
-"background-color: qlineargradient(spread:pad, x1:0, y1:0.505682, x2:1, y2:0.477, stop:0 rgba(250, 130, 100, 220), stop:1 rgba(105, 118, 132, 226));\n"
-"}\n"
-"\n"
-"")
-        self.forgotbutton.setObjectName("forgotbutton")
         self.signupbutton = QtWidgets.QPushButton(parent=self.widget)
-        self.signupbutton.setGeometry(QtCore.QRect(170, 450, 171, 28))
+        self.signupbutton.setGeometry(QtCore.QRect(160, 420, 171, 28))
         font = QtGui.QFont()
         font.setPointSize(11)
         font.setBold(False)
@@ -138,7 +122,6 @@ class Ui_MainWindow(object):
         self.password.raise_()
         self.loginbutton.raise_()
         self.signupbutton.raise_()
-        self.forgotbutton.raise_()
         self.label_3.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
@@ -159,5 +142,4 @@ class Ui_MainWindow(object):
         self.userName.setPlaceholderText(_translate("MainWindow", "User Name"))
         self.password.setPlaceholderText(_translate("MainWindow", "Password"))
         self.loginbutton.setText(_translate("MainWindow", "Login"))
-        self.forgotbutton.setText(_translate("MainWindow", "Forgot Password ?"))
         self.signupbutton.setText(_translate("MainWindow", "Sign up"))

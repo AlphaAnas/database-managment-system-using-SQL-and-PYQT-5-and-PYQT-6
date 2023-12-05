@@ -7,6 +7,20 @@ import connection_string
 import customer
 import pyodbc
 
+# # Replace these with your own database connection details
+server = 'DESKTOP-6367D0S'
+database = 'POSHAAK'  # Name of your Northwind database
+use_windows_authentication = False  # Set to True to use Windows Authentication
+username = 'sa'  # Specify a username if not using Windows Authentication
+password = 'anasking'  # Specify a password if not using Windows Authentication
+
+
+# # Create the connection string based on the authentication method chosen
+if use_windows_authentication:
+    connection_string = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};Trusted_Connection=yes;'
+else:
+    connection_string = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
+
 # # Main Window Class
 class UI(QtWidgets.QMainWindow):
     def __init__(self):
@@ -22,13 +36,54 @@ class UI(QtWidgets.QMainWindow):
         self.signupButton.clicked.connect(self.signup)
 
     def login(self):
-        self.login1 = customer.CustomerInterface()
-        self.login1.login()
-        self.login1.show()
-    def signup(self):
+        self.loginFlag = True
+        self.signupFlag = False
+        self.userName=  self.findChild(QLineEdit, "userName").text() #if nothing is entered then value is ''
+        self.user_password = self.findChild(QLineEdit,"password").text()  ##  if nothing is entered then value is ''
+        self.loginbutton = self.findChild(QPushButton, "loginbutton")
+        self.loginbutton.clicked.connect(self.loginFinal)
+    def loginFinal(self):
+       
+            connection = pyodbc.connect(connection_string)
 
+            cursor = connection.cursor()
+
+                # TODO: Write SQL query to fetch orders data
+        
+            cursor.execute("SELECT CASE WHEN EXISTS (SELECT 1 FROM customers WHERE last_name = ? AND password = ?) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END AS UserExists;", (self.userName,self.user_password))
+
+            
+            user_exists = cursor.fetchone()[0]  # Fetch the result of EXISTS check
+            print(user_exists, 'yeh')
+            connection.close()
+            if(user_exists == True):
+                  
+                    warning = QMessageBox(self)
+                    warning.setWindowTitle("Message Box")
+                    warning.setText("Login successful ! ")
+                    warning.setStandardButtons(QMessageBox.StandardButton.Ok)
+                    warning.setIcon(QMessageBox.Icon.Information)
+                    dlg = warning.exec()
+                    uic.loadUi("newScreen.ui",self)
+                    # self.customerInterface = CustomerInterface()
+                    # self.customerInterface.show()
+
+            else:
+                    warning = QMessageBox(self)
+                    warning.setWindowTitle("Message Box")
+                    warning.setText("incorrect email or password ")
+                    warning.setStandardButtons(QMessageBox.StandardButton.Ok and QMessageBox.StandardButton.Close)
+                    warning.setIcon(QMessageBox.Icon.Information)
+                    dlg = warning.exec()
+        
+
+                    
+        
+        
+    def signup(self):
+        self.loginFlag = False
+        self.signupFlag = True
         self.signup1 = customer.CustomerInterface()
-        self.signup1.signup()
         self.signup1.show()
 
 
