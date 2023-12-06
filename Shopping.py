@@ -68,13 +68,19 @@ class Shopping(QtWidgets.QMainWindow):
         header.setSectionResizeMode(6,QHeaderView.ResizeMode.ResizeToContents)
         
         
-        cursor.execute("SELECT SUM(total - discount) AS total_bill_amount FROM cart c")
+        # cursor.execute("SELECT SUM(total - discount) AS total_bill_amount FROM cart c")
         
         
-        # Fetch the result and store it in a variable
-        total_bill_result = cursor.fetchone()
-        total_bill_amount = total_bill_result[0] 
-        self.total.setText(str(total_bill_amount))
+        # # Fetch the result and store it in a variable
+        # total_bill_result = cursor.fetchone()
+        # total_bill_amount = total_bill_result[0]
+        # total_bill_amount = self.calculate_bill()
+        # self.total.setText(str(total_bill_amount))
+    
+        
+        total_bill_amount = self.calculate_bill()  # this function will itself calculate  the total amount now with discount
+        self.total.setText(str(total_bill_amount)) 
+
         
         
              
@@ -97,12 +103,41 @@ class Shopping(QtWidgets.QMainWindow):
         self.hide()
         
     def delete(self):
-        flag =False
-        flag1 = self.show_warning("Are you sure you want to delete this item ?",flag)
-        if flag1:
+        selected_row = self.itemWidget.currentRow()
+        if selected_row == None:
+                    warning = QMessageBox(self)
+                    warning.setWindowTitle("Invalid !")
+                    warning.setText("Please select a row to delete !! ")
+                    warning.setStandardButtons(QMessageBox.StandardButton.Ok)
+                    warning.setIcon(QMessageBox.Icon.Warning)
+                    dlg = warning.exec()
+        else:
             
-            self.itemWidget.setRowHidden(self.i, True)
+                if selected_row >= 0:
+                    primary_key_item = self.itemWidget.item(selected_row, 0)  # Assuming primary key is in the first column (index 0)
+                    if primary_key_item is not None:
+                        primary_key_value = primary_key_item.text()
+                        
+                        # Delete from the database
+                        connection = pyodbc.connect(connection_string)
+                        cursor = connection.cursor()
+                        cursor.execute("DELETE FROM cart WHERE entry_id = ?", primary_key_value)
+                        connection.commit()
+                        
+                        # Remove row from the UI
+                        self.itemWidget.removeRow(selected_row)
+                        
+                        # Recalculate the total bill after deletion
+                        total_bill_amount = self.calculate_bill()
+                        self.total.setText(str(total_bill_amount))
+                        
+                        connection.commit()
+
             
+           
+
+                
+              
             # proceed to payment window
     def paymentWindow(self):
         
@@ -111,6 +146,34 @@ class Shopping(QtWidgets.QMainWindow):
         
     def customerWindow(self):
           uic.loadUi("newScreen.ui",self)
+          
+    def show_warning(self, flag):
+                    
+                    warning = QMessageBox(self)
+                    warning.setWindowTitle("Message Box")
+                    warning.setText("Are you sure you want to delete this row !! ")
+                    warning.setStandardButtons(QMessageBox.StandardButton.Ok)
+                    warning.setIcon(QMessageBox.Icon.Warning)
+                    dlg = warning.exec()
+                    if dlg == QMessageBox.StandardButton.Ok:
+                        flag=True
+                        return flag
+                    
+    def calculate_bill(self):
+        
+        connection = pyodbc.connect(connection_string)
+        cursor = connection.cursor()
+             
+        cursor.execute("SELECT SUM(total - discount) AS total_bill_amount FROM cart c")
+        
+        
+        # Fetch the result and store it in a variable
+        total_bill_result = cursor.fetchone()
+        total_bill_amount = total_bill_result[0]
+        
+        connection.commit()
+        return str(total_bill_amount)
+     
         
     
     
