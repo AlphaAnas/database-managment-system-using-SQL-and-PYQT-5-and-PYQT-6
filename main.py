@@ -6,6 +6,7 @@ import sys
 import AdminView
 import connection_string
 import customer
+import customer_interface
 import pyodbc
 
 # # Replace these with your own database connection details
@@ -84,7 +85,7 @@ class UI(QMainWindow):
                     warning.setStandardButtons(QMessageBox.StandardButton.Ok)
                     warning.setIcon(QMessageBox.Icon.Information)
                     dlg = warning.exec()
-                    self.customerInterface = AdminView.AdminView1()
+                    self.customerInterface = customer_interface.UI()
                     self.customerInterface.show()
 
             else:
