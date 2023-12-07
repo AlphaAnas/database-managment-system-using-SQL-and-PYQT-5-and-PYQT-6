@@ -165,56 +165,96 @@ class AdminView1(QMainWindow):
         # Get the selected row
         selected_row = self.OrdersTableWidget.currentRow()
 
-        # Delete the selected row from the table widget
+        # Delete the selected row from the table widget and the database
         if selected_row != -1:
+            order_id = self.OrdersTableWidget.item(selected_row, 0).text()  # Assuming ID is in the first column
             self.OrdersTableWidget.removeRow(selected_row)
+            self.delete_order_from_database(order_id)
             QMessageBox.information(self, "Delete Successful", "Order deleted successfully!")
         else:
             QMessageBox.warning(self, "Delete Warning", "Please select a row to delete.")
+
+    def delete_order_from_database(self, order_id):
+        # Delete the order from the Orders table in the database
+        sql_query = f"DELETE FROM Orders WHERE id = {order_id}"
+        self.cursor.execute(sql_query)
+        self.conn.commit()
 
     def delete_selected_shippers(self):
         # Get the selected row
         selected_row = self.ShippersTableWidget.currentRow()
 
-        # Delete the selected row from the table widget
+        # Delete the selected row from the table widget and the database
         if selected_row != -1:
+            shipper_id = self.ShippersTableWidget.item(selected_row, 0).text()  # Assuming ID is in the first column
             self.ShippersTableWidget.removeRow(selected_row)
+            self.delete_shipper_from_database(shipper_id)
             QMessageBox.information(self, "Delete Successful", "Shipper deleted successfully!")
         else:
             QMessageBox.warning(self, "Delete Warning", "Please select a row to delete.")
+
+    def delete_shipper_from_database(self, shipper_id):
+        # Delete the shipper from the Shippers table in the database
+        sql_query = f"DELETE FROM Shippers WHERE id = {shipper_id}"
+        self.cursor.execute(sql_query)
+        self.conn.commit()
 
     def delete_selected_categories(self):
         # Get the selected row
         selected_row = self.CategoriesTableWidget.currentRow()
 
-        # Delete the selected row from the table widget
+        # Delete the selected row from the table widget and the database
         if selected_row != -1:
+            category_id = self.CategoriesTableWidget.item(selected_row, 0).text()  # Assuming ID is in the first column
             self.CategoriesTableWidget.removeRow(selected_row)
+            self.delete_category_from_database(category_id)
             QMessageBox.information(self, "Delete Successful", "Category deleted successfully!")
         else:
             QMessageBox.warning(self, "Delete Warning", "Please select a row to delete.")
+
+    def delete_category_from_database(self, category_id):
+        # Delete the category from the Categories table in the database
+        sql_query = f"DELETE FROM Categories WHERE id = {category_id}"
+        self.cursor.execute(sql_query)
+        self.conn.commit()
 
     def delete_selected_customers(self):
         # Get the selected row
         selected_row = self.CustomersTableWidget.currentRow()
 
-        # Delete the selected row from the table widget
+        # Delete the selected row from the table widget and the database
         if selected_row != -1:
+            customer_id = self.CustomersTableWidget.item(selected_row, 0).text()  # Assuming ID is in the first column
             self.CustomersTableWidget.removeRow(selected_row)
+            self.delete_customer_from_database(customer_id)
             QMessageBox.information(self, "Delete Successful", "Customer deleted successfully!")
         else:
             QMessageBox.warning(self, "Delete Warning", "Please select a row to delete.")
+
+    def delete_customer_from_database(self, customer_id):
+        # Delete the customer from the Customers table in the database
+        sql_query = f"DELETE FROM Customers WHERE id = {customer_id}"
+        self.cursor.execute(sql_query)
+        self.conn.commit()
 
     def delete_selected_delivery_areas(self):
         # Get the selected row
         selected_row = self.DeliveryTableWidget.currentRow()
 
-        # Delete the selected row from the table widget
+        # Delete the selected row from the table widget and the database
         if selected_row != -1:
+            delivery_area_id = self.DeliveryTableWidget.item(selected_row, 0).text()  # Assuming ID is in the first column
             self.DeliveryTableWidget.removeRow(selected_row)
+            self.delete_delivery_area_from_database(delivery_area_id)
             QMessageBox.information(self, "Delete Successful", "Delivery Area deleted successfully!")
         else:
             QMessageBox.warning(self, "Delete Warning", "Please select a row to delete.")
+
+    def delete_delivery_area_from_database(self, delivery_area_id):
+        # Delete the delivery area from the [Delivery Areas] table in the database
+        sql_query = f"DELETE FROM [Delivery Areas] WHERE id = {delivery_area_id}"
+        self.cursor.execute(sql_query)
+        self.conn.commit()
 
     def open_shipper_insert_window(self):
         # Open the ShipperInsert window
