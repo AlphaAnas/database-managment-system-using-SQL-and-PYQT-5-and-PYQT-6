@@ -56,17 +56,28 @@ class UI(QtWidgets.QMainWindow):
 
     def open_cart_screen(self, item):
         row = item.row()
-        columns_data = []
+        self.columns_data = []
 
         for col in range(self.tableWidget.columnCount()):
-            columns_data.append(self.tableWidget.item(row, col).text()) 
+            self.columns_data.append(self.tableWidget.item(row, col).text()) 
 
         #here we have to connect carting button ro process the availiale information
+       
+        
+        
         self.carting.clicked.connect(self.openCart)
+       
 
         # QMessageBox.information(self, "Row Clicked", f"You clicked on row {row} with data: {columns_data}")
 
     def openCart(self):
+                print(self.columns_data, "yehjdlfj;klasdjfjaslk")
+                connection = pyodbc.connect(connection_string)
+
+                cursor = connection.cursor()
+                
+                cursor.execute("INSERT INTO CART values()")
+
                 self.cart = Shopping.Shopping1()
                 self.cart.show()
         
