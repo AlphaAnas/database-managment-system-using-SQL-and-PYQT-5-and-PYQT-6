@@ -75,10 +75,10 @@ class UI(QMainWindow):
                 # TODO: Write SQL query to fetch orders data
             if self.admin:
         
-                    cursor.execute("SELECT CASE WHEN EXISTS (SELECT 1 FROM customers WHERE last_name = ? AND password = ? and account_type = star) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END AS UserExists;", (self.userName,self.user_password))
+                    cursor.execute("SELECT CASE WHEN EXISTS (SELECT 1 FROM customers WHERE last_name = ? AND password = ? and account_type = ?) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END AS UserExists;", (self.userName,self.user_password, "star"))
                     self.flag = "admin"
             else:
-                cursor.execute("SELECT CASE WHEN EXISTS (SELECT 1 FROM customers WHERE last_name = ? AND password = ? and account_type = normal) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END AS UserExists;", (self.userName,self.user_password))
+                cursor.execute("SELECT CASE WHEN EXISTS (SELECT 1 FROM customers WHERE last_name = ? AND password = ? and account_type = ?) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END AS UserExists;", (self.userName,self.user_password, "normal"))
                 self.flag = "user"
                 
             user_exists = cursor.fetchone()[0]  # Fetch the result of EXISTS check
@@ -98,7 +98,7 @@ class UI(QMainWindow):
                         self.customerInterface.show()
                     elif self.flag == "user":
                         
-                        # self.customerInterface = UI()
+                        self.customerInterface = customer_interface.UI()
                         self.customerInterface.show()
 
             else:
