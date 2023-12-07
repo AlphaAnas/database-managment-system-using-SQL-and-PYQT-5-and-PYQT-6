@@ -6,15 +6,14 @@ from PyQt5.QtCore import pyqtSignal
 import pyodbc
 
 
-# Replace these with your own database connection details
-server = 'DESKTOP-QJN0C6R\SHAPATER'
+server = 'DESKTOP-6367D0S'
 database = 'POSHAAK'  # Name of your Northwind database
-use_windows_authentication = True  # Set to True to use Windows Authentication
-username = ''  # Specify a username if not using Windows Authentication
-password = ''  # Specify a password if not using Windows Authentication
+use_windows_authentication = False  # Set to True to use Windows Authentication
+username = 'sa'  # Specify a username if not using Windows Authentication
+password = 'anasking'  # Specify a password if not using Windows Authentication
 
 
-# Create the connection string based on the authentication method chosen
+# # Create the connection string based on the authentication method chosen
 if use_windows_authentication:
     connection_string = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};Trusted_Connection=yes;'
 else:
@@ -338,7 +337,7 @@ class addScreen(QtWidgets.QMainWindow):
         
 
 
-# Create an instance of QtWidgets . QApplication
-app = QtWidgets.QApplication(sys.argv)
-window = UI() # Create an instance of our class
-app.exec() # Start the application
+# # Create an instance of QtWidgets . QApplication
+# app = QtWidgets.QApplication(sys.argv)
+# window = UI() # Create an instance of our class
+# app.exec() # Start the application

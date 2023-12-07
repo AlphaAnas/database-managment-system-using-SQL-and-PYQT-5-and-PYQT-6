@@ -9,12 +9,11 @@ import customer
 import customer_interface
 import pyodbc
 
-# # Replace these with your own database connection details
-server = 'DESKTOP-QJN0C6R\SHAPATER'
+server = 'DESKTOP-6367D0S'
 database = 'POSHAAK'  # Name of your Northwind database
-use_windows_authentication = True  # Set to True to use Windows Authentication
-username = ''  # Specify a username if not using Windows Authentication
-password = ''  # Specify a password if not using Windows Authentication
+use_windows_authentication = False  # Set to True to use Windows Authentication
+username = 'sa'  # Specify a username if not using Windows Authentication
+password = 'anasking'  # Specify a password if not using Windows Authentication
 
 
 # # Create the connection string based on the authentication method chosen
@@ -30,6 +29,8 @@ class UI(QMainWindow):
         super(UI, self).__init__() 
         # Load the .ui file
         uic.loadUi('login form.ui', self) 
+        
+      
         self.loginButton=self.findChild(QPushButton,"loginbutton")
         self.loginButton.clicked.connect(self.login)
         
@@ -46,6 +47,8 @@ class UI(QMainWindow):
     def login(self):
         self.loginFlag = True
         self.signupFlag = False
+        self.admin = False
+        self.admin= self.adminCheck.isChecked()
         self.userName=  self.findChild(QLineEdit, "userName").text() #if nothing is entered then value is ''
         # self.user_password = self.findChild(QLineEdit,"password").text() 
         password_line_edit = self.findChild(QLineEdit, "password") ##  if nothing is entered then value is ''
@@ -70,10 +73,14 @@ class UI(QMainWindow):
             cursor = connection.cursor()
 
                 # TODO: Write SQL query to fetch orders data
+            if self.admin:
         
-            cursor.execute("SELECT CASE WHEN EXISTS (SELECT 1 FROM customers WHERE last_name = ? AND password = ?) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END AS UserExists;", (self.userName,self.user_password))
-
-            
+                    cursor.execute("SELECT CASE WHEN EXISTS (SELECT 1 FROM customers WHERE last_name = ? AND password = ? and account_type = star) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END AS UserExists;", (self.userName,self.user_password))
+                    self.flag = "admin"
+            else:
+                cursor.execute("SELECT CASE WHEN EXISTS (SELECT 1 FROM customers WHERE last_name = ? AND password = ? and account_type = normal) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END AS UserExists;", (self.userName,self.user_password))
+                self.flag = "user"
+                
             user_exists = cursor.fetchone()[0]  # Fetch the result of EXISTS check
             print(user_exists, 'yeh')
             connection.close()
@@ -85,8 +92,14 @@ class UI(QMainWindow):
                     warning.setStandardButtons(QMessageBox.StandardButton.Ok)
                     warning.setIcon(QMessageBox.Icon.Information)
                     dlg = warning.exec()
-                    self.customerInterface = customer_interface.UI()
-                    self.customerInterface.show()
+                    if self.flag == "admin":
+                        
+                        self.customerInterface = AdminView.AdminView1()
+                        self.customerInterface.show()
+                    elif self.flag == "user":
+                        
+                        # self.customerInterface = UI()
+                        self.customerInterface.show()
 
             else:
                     warning = QMessageBox(self)

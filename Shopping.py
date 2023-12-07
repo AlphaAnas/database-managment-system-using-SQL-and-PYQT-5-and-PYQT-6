@@ -8,12 +8,11 @@ import connection_string
 import Payment
 import pyodbc
 
-# # Replace these with your own database connection details
-server = 'DESKTOP-QJN0C6R\SHAPATER'
+server = 'DESKTOP-6367D0S'
 database = 'POSHAAK'  # Name of your Northwind database
-use_windows_authentication = True  # Set to True to use Windows Authentication
-username = ''  # Specify a username if not using Windows Authentication
-password = ''  # Specify a password if not using Windows Authentication
+use_windows_authentication = False  # Set to True to use Windows Authentication
+username = 'sa'  # Specify a username if not using Windows Authentication
+password = 'anasking'  # Specify a password if not using Windows Authentication
 
 
 # # Create the connection string based on the authentication method chosen
@@ -183,12 +182,12 @@ class Shopping(QtWidgets.QMainWindow):
 
         
         
-def main(): 
-    app = QApplication(sys.argv)
-    window = Shopping()
-    window.show()
-    sys.exit(app.exec())
+# def main(): 
+#     app = QApplication(sys.argv)
+#     window = Shopping()
+#     window.show()
+#     sys.exit(app.exec())
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
