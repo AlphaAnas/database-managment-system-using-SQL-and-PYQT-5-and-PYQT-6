@@ -21,23 +21,14 @@ else:
 class AdminView1(QMainWindow):
     def __init__(self):
         super(AdminView1, self).__init__() 
-
-        # # Establishing a connection to the database
-        # self.conn = pyodbc.connect(
-        #     'DRIVER={SQL Server};'
-        #     'SERVER=MUSTAFA;'
-        #     'DATABASE=POSHAAK;'
-        #     'Trusted_Connection=yes;'
-        # )
         
-
         # Creating a cursor to execute SQL queries
         # self.cursor = self.conn.cursor()
         connection = pyodbc.connect(connection_string)
 
         self.cursor = connection.cursor()
         # Loading the UI from the .ui file
-        loadUi("AdminView.ui", self)
+        uic.loadUi("AdminView.ui", self)
 
         # Connecting buttons to their respective functions
         self.ClearButton.clicked.connect(self.clear_data)

@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(687, 650)
+        MainWindow.resize(561, 650)
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.widget = QtWidgets.QWidget(parent=self.centralwidget)
@@ -64,6 +64,8 @@ class Ui_MainWindow(object):
 "padding-top:5px;\n"
 "padding-bottom:2px;\n"
 "")
+        self.password.setInputMask("")
+        self.password.setPlaceholderText("Password")
         self.password.setObjectName("password")
         self.loginbutton = QtWidgets.QPushButton(parent=self.widget)
         self.loginbutton.setGeometry(QtCore.QRect(150, 340, 211, 41))
@@ -133,7 +135,7 @@ class Ui_MainWindow(object):
         self.adminCheck.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 687, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 561, 26))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(parent=MainWindow)
@@ -148,7 +150,6 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label_3.setText(_translate("MainWindow", "LOGIN"))
         self.userName.setPlaceholderText(_translate("MainWindow", "User Name"))
-        self.password.setPlaceholderText(_translate("MainWindow", "Password"))
         self.loginbutton.setText(_translate("MainWindow", "Login"))
         self.signupbutton.setText(_translate("MainWindow", "Sign up"))
         self.adminCheck.setText(_translate("MainWindow", "Admin"))

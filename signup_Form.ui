@@ -35,7 +35,7 @@ border-top-left-radius:50px;</string>
     <property name="geometry">
      <rect>
       <x>440</x>
-      <y>310</y>
+      <y>280</y>
       <width>281</width>
       <height>41</height>
      </rect>
@@ -79,7 +79,7 @@ border-top-left-radius: 50px;</string>
     <property name="geometry">
      <rect>
       <x>440</x>
-      <y>380</y>
+      <y>350</y>
       <width>281</width>
       <height>41</height>
      </rect>
@@ -109,7 +109,7 @@ padding-bottom:2px;
     <property name="geometry">
      <rect>
       <x>440</x>
-      <y>180</y>
+      <y>210</y>
       <width>281</width>
       <height>41</height>
      </rect>
@@ -135,41 +135,11 @@ padding-bottom:2px;
      <string>User Email</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_4">
+   <widget class="QLineEdit" name="pass1">
     <property name="geometry">
      <rect>
       <x>440</x>
-      <y>230</y>
-      <width>281</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>11</pointsize>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color:rgba(0,0,0,170);
-border:none;
-border-bottom:3px solid rgba(155,158,152,255);
-color: rgba(255,255,255,230);
-padding-top:5px;
-padding-bottom:2px;
-</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="placeholderText">
-     <string>Verification Code</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="pass">
-    <property name="geometry">
-     <rect>
-      <x>440</x>
-      <y>450</y>
+      <y>420</y>
       <width>281</width>
       <height>41</height>
      </rect>
@@ -246,6 +216,11 @@ border-bottom-right-radius: 50px;</string>
       <height>51</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
     <property name="mouseTracking">
      <bool>true</bool>
     </property>
@@ -264,6 +239,11 @@ border-bottom-right-radius: 50px;</string>
       <width>121</width>
       <height>51</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
     </property>
     <property name="mouseTracking">
      <bool>true</bool>
@@ -284,8 +264,7 @@ border-bottom-right-radius: 50px;</string>
    <zorder>firstname</zorder>
    <zorder>lastname</zorder>
    <zorder>email</zorder>
-   <zorder>lineEdit_4</zorder>
-   <zorder>pass</zorder>
+   <zorder>pass1</zorder>
    <zorder>label_5</zorder>
    <zorder>signupButton</zorder>
    <zorder>cancelButton</zorder>

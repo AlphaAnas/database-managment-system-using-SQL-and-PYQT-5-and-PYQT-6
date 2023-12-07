@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidge
 import sys
 import AdminView
 import connection_string
-import customer
+import signup
 import customer_interface
 import pyodbc
 
@@ -29,95 +29,103 @@ class UI(QMainWindow):
         super(UI, self).__init__() 
         # Load the .ui file
         uic.loadUi('login form.ui', self) 
-        
-      
-        self.loginButton=self.findChild(QPushButton,"loginbutton")
-        self.loginButton.clicked.connect(self.login)
-        
-        self.userName=  self.findChild(QLineEdit, "userName").text() #if nothing is entered then value is ''
-        password_line_edit = self.findChild(QLineEdit, "password") ##  if nothing is entered then value is ''
-        password_line_edit.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
-        self.user_password = password_line_edit.text()
-        
+        self.password.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
 
+      
         # if the user wants to signup
         self.signupButton = self.findChild(QPushButton,"signupbutton")
         self.signupButton.clicked.connect(self.signup)
 
+        self.loginButton=self.findChild(QPushButton,"loginbutton")
+        self.loginButton.clicked.connect(self.login)
+        
     def login(self):
-        self.loginFlag = True
-        self.signupFlag = False
-        self.admin = False
-        self.admin= self.adminCheck.isChecked()
+            
         self.userName=  self.findChild(QLineEdit, "userName").text() #if nothing is entered then value is ''
-        # self.user_password = self.findChild(QLineEdit,"password").text() 
         password_line_edit = self.findChild(QLineEdit, "password") ##  if nothing is entered then value is ''
         password_line_edit.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
         self.user_password = password_line_edit.text()
         
 
-                # Validate data types 
-        try:
-            self.userName = str(self.userName)  # Assuming charges are in string format
-            # Ensure other validations as needed for your specific case
-
-        except ValueError:
-            QMessageBox.warning(self, "Insert Warning", "Invalid data types. Please enter valid data.")
-      
-        self.loginbutton = self.findChild(QPushButton, "loginbutton")
-        self.loginbutton.clicked.connect(self.loginFinal)
-    def loginFinal(self):
-       
-            connection = pyodbc.connect(connection_string)
-
-            cursor = connection.cursor()
-
-                # TODO: Write SQL query to fetch orders data
-            if self.admin:
-        
-                    cursor.execute("SELECT CASE WHEN EXISTS (SELECT 1 FROM customers WHERE last_name = ? AND password = ? and account_type = ?) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END AS UserExists;", (self.userName,self.user_password, "star"))
-                    self.flag = "admin"
-            else:
-                cursor.execute("SELECT CASE WHEN EXISTS (SELECT 1 FROM customers WHERE last_name = ? AND password = ? and account_type = ?) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END AS UserExists;", (self.userName,self.user_password, "normal"))
-                self.flag = "user"
+        if not self.userName or not self.user_password:
+            self.text="Enter your credentials to continue"
+            if self.userName :
+                self.text = "Enter your password"
                 
-            user_exists = cursor.fetchone()[0]  # Fetch the result of EXISTS check
-            print(user_exists, 'yeh')
-            connection.close()
-            if(user_exists == True):
-                  
-                    warning = QMessageBox(self)
-                    warning.setWindowTitle("Message Box")
-                    warning.setText("Login successful ! ")
-                    warning.setStandardButtons(QMessageBox.StandardButton.Ok)
-                    warning.setIcon(QMessageBox.Icon.Information)
-                    dlg = warning.exec()
-                    if self.flag == "admin":
-                        
-                        self.customerInterface = AdminView.AdminView1()
-                        self.customerInterface.show()
-                    elif self.flag == "user":
-                        
-                        self.customerInterface = customer_interface.UI()
-                        self.customerInterface.show()
-
+            elif self.user_password :
+                self.text = "Enter your User Name"
+                
             else:
-                    warning = QMessageBox(self)
-                    warning.setWindowTitle("Message Box")
-                    warning.setText("incorrect email or password ")
-                    warning.setStandardButtons(QMessageBox.StandardButton.Ok and QMessageBox.StandardButton.Close)
-                    warning.setIcon(QMessageBox.Icon.Information)
-                    dlg = warning.exec()
-        
+                self.text = "Enter your credentials to continue"
+                
+            self.addMsg = QtWidgets.QMessageBox()
+            self.addMsg.setWindowTitle('Error')
+            self.addMsg.setText(self.text)
+            self.addMsg.show()
+            return
+        else:
 
-                    
+            try:
+                self.userName = str(self.userName)  # Assuming username is in string format
+                # Ensure other validations as needed for your specific case
+
+            except ValueError:
+                QMessageBox.warning(self, "Insert Warning", "Invalid data types. Please enter valid data.")
+                return
+
+          
         
-        
+            self.loginFinal()
+
+    def loginFinal(self):
+        self.admin = False
+        self.admin = self.adminCheck.isChecked()
+        connection = pyodbc.connect(connection_string)
+        cursor = connection.cursor()
+
+        # TODO: Write SQL query to fetch orders data
+        if self.admin:
+            cursor.execute("SELECT CASE WHEN EXISTS (SELECT 1 FROM customers WHERE last_name = ? AND password = ? and account_type = ?) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END AS UserExists;", (self.userName, self.user_password, "star"))
+            self.flag = "admin"
+        else:
+            cursor.execute("SELECT CASE WHEN EXISTS (SELECT 1 FROM customers WHERE last_name = ? AND password = ? and account_type = ?) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END AS UserExists;", (self.userName, self.user_password, "normal"))
+            self.flag = "user"
+
+        user_exists = cursor.fetchone()[0]  # Fetch the result of EXISTS check
+        print(user_exists)
+        connection.close()
+
+        if user_exists:
+            warning = QMessageBox(self)
+            warning.setWindowTitle("Message Box")
+            warning.setText("Login successful ! ")
+            warning.setStandardButtons(QMessageBox.StandardButton.Ok)
+            warning.setIcon(QMessageBox.Icon.Information)
+            dlg = warning.exec()
+
+            if self.flag == "admin":
+                self.ad = AdminView.AdminView1()
+                self.ad.show()
+            elif self.flag == "user":
+                self.cu = customer_interface.UI()
+                self.cu.show()
+
+        else:
+            self.text = "user not found !"
+            self.error = QtWidgets.QMessageBox()
+            self.error.setWindowTitle('Error')
+            self.error.setText(self.text)
+            self.error.show()
+            
+
+                        
+            
+            
     def signup(self):
-        self.loginFlag = False
-        self.signupFlag = True
-        self.signup1 = customer.CustomerInterface()
-        self.signup1.show()
+            self.loginFlag = False
+            self.signupFlag = True
+            self.signup1 = signup.CustomerInterface()
+            self.signup1.show()
 
 
 #signup function for custome 

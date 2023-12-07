@@ -5,6 +5,9 @@ from PyQt5 import uic
 from PyQt5.QtCore import pyqtSignal
 import pyodbc
 import Shopping
+
+
+# # Replace these with your own database connection details
 server = 'DESKTOP-6367D0S'
 database = 'POSHAAK'  # Name of your Northwind database
 use_windows_authentication = False  # Set to True to use Windows Authentication
@@ -64,22 +67,39 @@ class UI(QtWidgets.QMainWindow):
         #here we have to connect carting button ro process the availiale information
        
         
-        
-        self.carting.clicked.connect(self.openCart)
+        if self.columns_data is not None:
+            self.carting.clicked.connect(self.openCart)
+        else:     
+            error_message = "Error: No row is selected."
+            QMessageBox.critical(self, "Error", error_message)
+       
        
 
         # QMessageBox.information(self, "Row Clicked", f"You clicked on row {row} with data: {columns_data}")
 
     def openCart(self):
-                print(self.columns_data, "yehjdlfj;klasdjfjaslk")
-                connection = pyodbc.connect(connection_string)
-
-                cursor = connection.cursor()
                 
-                cursor.execute("INSERT INTO CART values()")
+                connection = pyodbc.connect(connection_string)
+                cursor = connection.cursor()
 
-                self.cart = Shopping.Shopping1()
-                self.cart.show()
+                cart_info = (
+                    self.columns_data[0],
+                    float(self.columns_data[-2]) - (float(self.columns_data[-1])),
+                    float(self.columns_data[-1]),
+                    float(self.columns_data[-2])
+                    )
+                
+                print("first....", type(cart_info[0]))
+                                
+                qu = "INSERT INTO cart ([product_id], [total], [discount], [gross_total]) VALUES (?, ?, ?, ?)"
+                cursor.execute(qu, cart_info)
+                print("second..")
+
+
+                # self.cart = Shopping.Shopping1()
+                # self.cart.show()
+
+                connection.close()
         
         
     def populate_items_screen(self):
@@ -89,13 +109,15 @@ class UI(QtWidgets.QMainWindow):
         
         select_all_query = """
                 SELECT
+                p.id,
                 p.name,
                 c.name AS category_name,
                 p.color,
                 p.size,
                 b.brand_name AS brand_name,
                 p.[quantity_in_stock,],
-                p.price
+                p.price,
+                p.discount
                 FROM products p
                 JOIN product_brand pb ON p.id = pb.product_id
                 JOIN brands b ON b.id = pb.brand_id
@@ -115,12 +137,14 @@ class UI(QtWidgets.QMainWindow):
         # Loop through the rows and print details
         for product_details in all_products:
             item_details = {
-                'name': product_details[0],
-                'category': product_details[1],
-                'color': product_details[2],
-                'size': product_details[3],
-                'brand': product_details[4],
-                'price': product_details[6]
+                'ID':product_details[0],
+                'name': product_details[1],
+                'category': product_details[2],
+                'color': product_details[3],
+                'size': product_details[4],
+                'brand': product_details[5],
+                'price': product_details[7],
+                'Discount':product_details[8]
             }
             self.update_table(item_details)
 
@@ -154,13 +178,15 @@ class UI(QtWidgets.QMainWindow):
 
         select_all_query = """
                 SELECT
+                p.id,
                 p.name,
                 c.name AS category_name,
                 p.color,
                 p.size,
                 b.brand_name AS brand_name,
                 p.[quantity_in_stock,],
-                p.price
+                p.price,
+                p.discount
                 FROM products p
                 JOIN product_brand pb ON p.id = pb.product_id
                 JOIN brands b ON b.id = pb.brand_id
@@ -175,12 +201,14 @@ class UI(QtWidgets.QMainWindow):
         # Loop through the rows and print details
         for product_details in all_products:
             item_details = {
-                'name': product_details[0],
-                'category': product_details[1],
-                'color': product_details[2],
-                'size': product_details[3],
-                'brand': product_details[4],
-                'price': product_details[6]
+                'ID':product_details[0],
+                'name': product_details[1],
+                'category': product_details[2],
+                'color': product_details[3],
+                'size': product_details[4],
+                'brand': product_details[5],
+                'price': product_details[7],
+                'Discount':product_details[8]
             }
             self.update_table(item_details)  
         
