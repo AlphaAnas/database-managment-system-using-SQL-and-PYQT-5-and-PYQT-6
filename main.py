@@ -31,6 +31,12 @@ class UI(QMainWindow):
         uic.loadUi('login form.ui', self) 
         self.loginButton=self.findChild(QPushButton,"loginbutton")
         self.loginButton.clicked.connect(self.login)
+        
+        self.userName=  self.findChild(QLineEdit, "userName").text() #if nothing is entered then value is ''
+        password_line_edit = self.findChild(QLineEdit, "password") ##  if nothing is entered then value is ''
+        password_line_edit.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
+        self.user_password = password_line_edit.text()
+        
 
         # if the user wants to signup
         self.signupButton = self.findChild(QPushButton,"signupbutton")
@@ -40,7 +46,20 @@ class UI(QMainWindow):
         self.loginFlag = True
         self.signupFlag = False
         self.userName=  self.findChild(QLineEdit, "userName").text() #if nothing is entered then value is ''
-        self.user_password = self.findChild(QLineEdit,"password").text()  ##  if nothing is entered then value is ''
+        # self.user_password = self.findChild(QLineEdit,"password").text() 
+        password_line_edit = self.findChild(QLineEdit, "password") ##  if nothing is entered then value is ''
+        password_line_edit.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
+        self.user_password = password_line_edit.text()
+        
+
+                # Validate data types 
+        try:
+            self.userName = str(self.userName)  # Assuming charges are in string format
+            # Ensure other validations as needed for your specific case
+
+        except ValueError:
+            QMessageBox.warning(self, "Insert Warning", "Invalid data types. Please enter valid data.")
+      
         self.loginbutton = self.findChild(QPushButton, "loginbutton")
         self.loginbutton.clicked.connect(self.loginFinal)
     def loginFinal(self):
@@ -65,8 +84,6 @@ class UI(QMainWindow):
                     warning.setStandardButtons(QMessageBox.StandardButton.Ok)
                     warning.setIcon(QMessageBox.Icon.Information)
                     dlg = warning.exec()
-                   
-                    print("pehli baar")
                     self.customerInterface = AdminView.AdminView1()
                     self.customerInterface.show()
 
