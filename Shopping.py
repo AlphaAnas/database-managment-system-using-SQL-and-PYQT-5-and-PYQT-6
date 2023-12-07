@@ -182,12 +182,12 @@ class Shopping1(QtWidgets.QMainWindow):
 
         
         
-# def main(): 
-#     app = QApplication(sys.argv)
-#     window = Shopping()
-#     window.show()
-#     sys.exit(app.exec())
+def main(): 
+    app = QApplication(sys.argv)
+    window = Shopping1()
+    window.show()
+    sys.exit(app.exec())
 
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()

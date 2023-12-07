@@ -5,14 +5,11 @@ from PyQt5 import uic
 from PyQt5.QtCore import pyqtSignal
 import pyodbc
 import Shopping
-
-
-# # Replace these with your own database connection details
-server = 'DESKTOP-6367D0S'
+server = 'DESKTOP-QJN0C6R\SHAPATER'
 database = 'POSHAAK'  # Name of your Northwind database
-use_windows_authentication = False  # Set to True to use Windows Authentication
-username = 'sa'  # Specify a username if not using Windows Authentication
-password = 'anasking'  # Specify a password if not using Windows Authentication
+use_windows_authentication = True  # Set to True to use Windows Authentication
+username = ''  # Specify a username if not using Windows Authentication
+password = ''  # Specify a password if not using Windows Authentication
 
 
 # # Create the connection string based on the authentication method chosen
@@ -67,17 +64,20 @@ class UI(QtWidgets.QMainWindow):
         #here we have to connect carting button ro process the availiale information
        
         
+        
         if self.columns_data is not None:
-            self.carting.clicked.connect(self.openCart)
+                
+                self.carting.clicked.connect(self.openCart)
         else:     
+            
             error_message = "Error: No row is selected."
             QMessageBox.critical(self, "Error", error_message)
-       
-       
+
 
         # QMessageBox.information(self, "Row Clicked", f"You clicked on row {row} with data: {columns_data}")
 
     def openCart(self):
+              
                 
                 connection = pyodbc.connect(connection_string)
                 cursor = connection.cursor()
@@ -96,8 +96,7 @@ class UI(QtWidgets.QMainWindow):
                 print("second..")
 
 
-                # self.cart = Shopping.Shopping1()
-                # self.cart.show()
+               
 
                 connection.close()
         
