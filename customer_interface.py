@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QPushButton, QComboBox, QLineEdit, QTableWidgetItem 
 from PyQt5 import uic
 from PyQt5.QtCore import pyqtSignal
 import pyodbc
-
+import Shopping
 server = 'DESKTOP-6367D0S'
 database = 'POSHAAK'  # Name of your Northwind database
 use_windows_authentication = False  # Set to True to use Windows Authentication
@@ -62,11 +62,15 @@ class UI(QtWidgets.QMainWindow):
             columns_data.append(self.tableWidget.item(row, col).text()) 
 
         #here we have to connect carting button ro process the availiale information
-        # self.carting.clicked.connect(self)
+        self.carting.clicked.connect(self.openCart)
 
-        QMessageBox.information(self, "Row Clicked", f"You clicked on row {row} with data: {columns_data}")
+        # QMessageBox.information(self, "Row Clicked", f"You clicked on row {row} with data: {columns_data}")
 
-    
+    def openCart(self):
+                self.cart = Shopping.Shopping1()
+                self.cart.show()
+        
+        
     def populate_items_screen(self):
             # inorder to populate the items you should have keys in product_brand bridge table AND items in brands and well categories.
         connection = pyodbc.connect(connection_string)

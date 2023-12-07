@@ -21,10 +21,10 @@ if use_windows_authentication:
 else:
     connection_string = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
 
-class Shopping(QtWidgets.QMainWindow):
+class Shopping1(QtWidgets.QMainWindow):
     def __init__(self):
          # Call the inherited classes __init__ method
-        super(Shopping, self).__init__() 
+        super(Shopping1, self).__init__() 
         # Load the .ui file
         uic.loadUi('Shopping.ui', self) 
         
@@ -38,7 +38,7 @@ class Shopping(QtWidgets.QMainWindow):
         number = cursor.fetchone()
         rows = number[0] #store the total number of rows to display
         
-        cursor.execute("select* from products;")
+        cursor.execute("select* from cart;")
         products_data = cursor.fetchall()
         print(products_data) # a list of tuples containing all the 
         
