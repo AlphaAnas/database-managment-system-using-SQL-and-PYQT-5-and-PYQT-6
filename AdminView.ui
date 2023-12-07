@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1710</width>
+    <height>1139</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QGroupBox" name="OrdersGroupBox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>1681</width>
+      <height>271</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Orders</string>
+    </property>
+    <widget class="QDateEdit" name="OrdersDateEdit">
+     <property name="geometry">
+      <rect>
+       <x>1459</x>
+       <y>220</y>
+       <width>131</width>
+       <height>22</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="OrderDateLabel">
+     <property name="geometry">
+      <rect>
+       <x>1360</x>
+       <y>220</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Order Date</string>
+     </property>
+    </widget>
+    <widget class="QTableWidget" name="OrdersTableWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>1581</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <column>
+      <property name="text">
+       <string>order_id</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>cart_id</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>customer_id</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>order_date</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>total_amount</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>payment_method</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>status</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>shipCity</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>shipDate</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>shipperID</string>
+      </property>
+     </column>
+    </widget>
+    <widget class="QPushButton" name="OrdersDeleteButton">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>230</y>
+       <width>101</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Delete</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="CustomersGroupBox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>560</y>
+      <width>911</width>
+      <height>261</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Customers</string>
+    </property>
+    <widget class="QTableWidget" name="CustomersTableWidget">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>881</width>
+       <height>181</height>
+      </rect>
+     </property>
+     <column>
+      <property name="text">
+       <string>id</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>last_name</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>email</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>password</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>account_type</string>
+      </property>
+     </column>
+    </widget>
+    <widget class="QLineEdit" name="CustomerIDLineEdit">
+     <property name="geometry">
+      <rect>
+       <x>740</x>
+       <y>210</y>
+       <width>151</width>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="CustomerIDLabel">
+     <property name="geometry">
+      <rect>
+       <x>630</x>
+       <y>210</y>
+       <width>101</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>CustomerID</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="CustomersDeleteButton">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>216</y>
+       <width>101</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Delete</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="ShippersGroupBox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>290</y>
+      <width>911</width>
+      <height>261</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Shippers</string>
+    </property>
+    <widget class="QTableWidget" name="ShippersTableWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>681</width>
+       <height>192</height>
+      </rect>
+     </property>
+     <column>
+      <property name="text">
+       <string>id</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>name</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>contact_number</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>email</string>
+      </property>
+     </column>
+    </widget>
+    <widget class="QLineEdit" name="ShipperIDLineEdit">
+     <property name="geometry">
+      <rect>
+       <x>550</x>
+       <y>220</y>
+       <width>141</width>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="ShipperIDLabel">
+     <property name="geometry">
+      <rect>
+       <x>470</x>
+       <y>220</y>
+       <width>71</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ShipperID</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="ShippersDeleteButton">
+     <property name="geometry">
+      <rect>
+       <x>700</x>
+       <y>20</y>
+       <width>81</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Delete</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="ShipperInsertButton">
+     <property name="geometry">
+      <rect>
+       <x>700</x>
+       <y>70</y>
+       <width>81</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Insert</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="DeliveryGroupBox">
+    <property name="geometry">
+     <rect>
+      <x>930</x>
+      <y>560</y>
+      <width>761</width>
+      <height>261</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Delivery Areas</string>
+    </property>
+    <widget class="QTableWidget" name="DeliveryTableWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>741</width>
+       <height>181</height>
+      </rect>
+     </property>
+     <column>
+      <property name="text">
+       <string>area</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>city</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>country</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>postal_code</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>charges</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>isPossible</string>
+      </property>
+     </column>
+    </widget>
+    <widget class="QLineEdit" name="CityLineEdit">
+     <property name="geometry">
+      <rect>
+       <x>640</x>
+       <y>210</y>
+       <width>113</width>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="CityLabel">
+     <property name="geometry">
+      <rect>
+       <x>600</x>
+       <y>210</y>
+       <width>31</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>City</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="DeliveryDeleteButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>220</y>
+       <width>91</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Delete</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="DeliveryInsertButton">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>220</y>
+       <width>91</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Insert</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="ClearButton">
+    <property name="geometry">
+     <rect>
+      <x>1340</x>
+      <y>830</y>
+      <width>171</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Clear</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ShowButton">
+    <property name="geometry">
+     <rect>
+      <x>1520</x>
+      <y>830</y>
+      <width>171</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Show</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ViewProductsButton">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>830</y>
+      <width>171</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>View Products</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="BackButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>830</y>
+      <width>171</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Back</string>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="CategoriesGroupBox">
+    <property name="geometry">
+     <rect>
+      <x>930</x>
+      <y>290</y>
+      <width>761</width>
+      <height>261</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Categories</string>
+    </property>
+    <widget class="QTableWidget" name="CategoriesTableWidget">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>521</width>
+       <height>181</height>
+      </rect>
+     </property>
+     <column>
+      <property name="text">
+       <string>id</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>name</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>description</string>
+      </property>
+     </column>
+    </widget>
+    <widget class="QComboBox" name="CategoryComboBox">
+     <property name="geometry">
+      <rect>
+       <x>400</x>
+       <y>210</y>
+       <width>141</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>All</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>3</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="CategoryLabel">
+     <property name="geometry">
+      <rect>
+       <x>270</x>
+       <y>210</y>
+       <width>121</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Category Type</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="CategoryDeleteButton">
+     <property name="geometry">
+      <rect>
+       <x>560</x>
+       <y>20</y>
+       <width>91</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Delete</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="CategoryInsertButton">
+     <property name="geometry">
+      <rect>
+       <x>560</x>
+       <y>70</y>
+       <width>91</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Insert</string>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
