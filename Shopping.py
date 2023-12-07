@@ -1,19 +1,19 @@
 # Importing essential modules
-from PyQt6 import QtWidgets, uic, QtCore
-from PyQt6.QtCore import Qt
-from PyQt6.QtCore import QDate
-from PyQt6.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget, QHeaderView, QPushButton, QLineEdit,QMessageBox
+from PyQt5 import QtWidgets, uic, QtCore
+from PyQt5.QtCore import Qt
+from PyQt5.QtCore import QDate
+from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget, QHeaderView, QPushButton, QLineEdit,QMessageBox
 import sys
 import connection_string
 import Payment
 import pyodbc
 
 # # Replace these with your own database connection details
-server = 'DESKTOP-6367D0S'
+server = 'DESKTOP-QJN0C6R\SHAPATER'
 database = 'POSHAAK'  # Name of your Northwind database
-use_windows_authentication = False  # Set to True to use Windows Authentication
-username = 'sa'  # Specify a username if not using Windows Authentication
-password = 'anasking'  # Specify a password if not using Windows Authentication
+use_windows_authentication = True  # Set to True to use Windows Authentication
+username = ''  # Specify a username if not using Windows Authentication
+password = ''  # Specify a password if not using Windows Authentication
 
 
 # # Create the connection string based on the authentication method chosen
