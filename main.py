@@ -1,8 +1,9 @@
 # Importing essential modules
-from PyQt6 import QtWidgets, uic
-from PyQt6.QtCore import QDate
-from PyQt6.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget, QHeaderView, QPushButton, QLineEdit,QMessageBox
+from PyQt5 import QtWidgets, uic
+from PyQt5.QtCore import QDate
+from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget, QHeaderView, QPushButton, QLineEdit,QMessageBox
 import sys
+import AdminView
 import connection_string
 import customer
 import pyodbc
@@ -22,7 +23,7 @@ else:
     connection_string = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
 
 # # Main Window Class
-class UI(QtWidgets.QMainWindow):
+class UI(QMainWindow):
     def __init__(self):
          # Call the inherited classes __init__ method
         super(UI, self).__init__() 
@@ -64,9 +65,10 @@ class UI(QtWidgets.QMainWindow):
                     warning.setStandardButtons(QMessageBox.StandardButton.Ok)
                     warning.setIcon(QMessageBox.Icon.Information)
                     dlg = warning.exec()
-                    uic.loadUi("newScreen.ui",self)
-                    # self.customerInterface = CustomerInterface()
-                    # self.customerInterface.show()
+                   
+                    print("pehli baar")
+                    self.customerInterface = AdminView.AdminView1()
+                    self.customerInterface.show()
 
             else:
                     warning = QMessageBox(self)

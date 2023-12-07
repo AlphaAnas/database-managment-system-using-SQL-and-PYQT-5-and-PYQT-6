@@ -1,23 +1,41 @@
 import sys
+from PyQt5 import QtWidgets, uic
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidgetItem, QDateEdit, QLineEdit, QComboBox, QPushButton, QVBoxLayout, QGroupBox, QMessageBox, QDialog, QVBoxLayout, QLabel
 from PyQt5.uic import loadUi
 import pyodbc
 
-class AdminView(QMainWindow):
-    def __init__(self):
-        super().__init__()
+# # Replace these with your own database connection details
+server = 'DESKTOP-6367D0S'
+database = 'POSHAAK'  # Name of your Northwind database
+use_windows_authentication = False  # Set to True to use Windows Authentication
+username = 'sa'  # Specify a username if not using Windows Authentication
+password = 'anasking'  # Specify a password if not using Windows Authentication
 
-        # Establishing a connection to the database
-        self.conn = pyodbc.connect(
-            'DRIVER={SQL Server};'
-            'SERVER=MUSTAFA;'
-            'DATABASE=POSHAAK;'
-            'Trusted_Connection=yes;'
-        )
+
+# # Create the connection string based on the authentication method chosen
+if use_windows_authentication:
+    connection_string = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};Trusted_Connection=yes;'
+else:
+    connection_string = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
+
+class AdminView1(QMainWindow):
+    def __init__(self):
+        super(AdminView1, self).__init__() 
+
+        # # Establishing a connection to the database
+        # self.conn = pyodbc.connect(
+        #     'DRIVER={SQL Server};'
+        #     'SERVER=MUSTAFA;'
+        #     'DATABASE=POSHAAK;'
+        #     'Trusted_Connection=yes;'
+        # )
+        
 
         # Creating a cursor to execute SQL queries
-        self.cursor = self.conn.cursor()
+        # self.cursor = self.conn.cursor()
+        connection = pyodbc.connect(connection_string)
 
+        self.cursor = connection.cursor()
         # Loading the UI from the .ui file
         loadUi("AdminView.ui", self)
 
@@ -321,9 +339,9 @@ class DeliveryInsertWindow(QMainWindow):
         except ValueError:
             QMessageBox.warning(self, "Insert Warning", "Invalid data types. Please enter valid data.")
 
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = AdminView()
-    window.show()
-    sys.exit(app.exec())
+# if __name__ == "__main__":
+#     app = QApplication(sys.argv)
+#     window = AdminView()
+#     window.show()
+#     sys.exit(app.exec())
 
