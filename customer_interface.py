@@ -51,6 +51,8 @@ class UI(QtWidgets.QMainWindow):
         self.off=self.findChild(QPushButton,"close_but")
         self.off.clicked.connect(self.closing)
         
+        self.view_Cart_button.clicked.connect(self.onlyOpenCart)
+        
         #add to cart functionality
         self.carting=self.findChild(QPushButton, "cart_but")
         self.cart_but.setDisabled(True)
@@ -79,24 +81,35 @@ class UI(QtWidgets.QMainWindow):
 
 
         # QMessageBox.information(self, "Row Clicked", f"You clicked on row {row} with data: {columns_data}")
-
+    def onlyOpenCart(self):
+                self.cart2 = Shopping.Shopping1(self.customer_id)
+                self.cart2.show()
     def openCart(self):
-                
-                connection = pyodbc.connect(connection_string)
-                cursor = connection.cursor()
                 for ele in self.columns_data:
                     print(ele , " <= data ")
+                connection = pyodbc.connect(connection_string)
+                cursor = connection.cursor()
+             
                 cart_info = (
-                    int(self.columns_data[0]),
+                    int(self.columns_data[0]), # product id
                     self.customer_id,
-                    float(self.columns_data[-2]) - (float(self.columns_data[-1])),
-                    float(self.columns_data[-1]),
-                    float(self.columns_data[-2])
-                    )
                 
+                    
+                   
+                    float(self.columns_data[-2]),
+                    float(self.columns_data[-1]),
+                    float(self.columns_data[-2]) - (float(self.columns_data[-1]))
+                 
+                   
+                  
+                    
+                    )
+
                                 
                 qu = "INSERT INTO cart (product_id,customer_id, total, discount, gross_total) VALUES (?, ?, ?, ?, ?)"
                 cursor.execute(qu, cart_info)
+                
+                
                 
 
                 connection.commit()

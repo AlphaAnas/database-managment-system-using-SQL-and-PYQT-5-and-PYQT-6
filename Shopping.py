@@ -28,15 +28,15 @@ class Shopping1(QtWidgets.QMainWindow):
         # Load the .ui file
         uic.loadUi('Shopping.ui', self) 
     
-        
+        self.total_bill_amount =0 
     
         self.customer_id = customer_id
         print(self.customer_id , "yeh dekho ")
       
         self.populate_items_screen()
         
-        total_bill_amount = self.calculate_bill()  # this function will itself calculate  the total amount now with discount
-        self.total.setText(str(total_bill_amount)) 
+        self.total_bill_amount = self.calculate_bill()  # this function will itself calculate  the total amount now with discount
+        self.total.setText(str(self.total_bill_amount)) 
 
         
         
@@ -45,6 +45,7 @@ class Shopping1(QtWidgets.QMainWindow):
         
         self.backButton.clicked.connect(self.back)
         self.deleteButton.clicked.connect(self.delete)
+     
         
         
         # checkout and continue button functionality
@@ -52,7 +53,7 @@ class Shopping1(QtWidgets.QMainWindow):
         self.continueButton.clicked.connect(self.back)
        
         self.checkoutButton1 = self.findChild(QPushButton, "checkoutButton")
-        self.checkoutButton1.clicked.connect(self.paymentWindow())
+        self.checkoutButton1.clicked.connect(self.paymentWindow)
             
 
                 # TODO: Write SQL query to fetch orders data
@@ -75,7 +76,7 @@ class Shopping1(QtWidgets.QMainWindow):
         entry_ids = cursor.fetchall()
       
       
-        print(entry_ids,'nhi bhai')
+        print(entry_ids,'productid')
     
         for entry_id in entry_ids:
             entry_id = entry_id[0]
@@ -86,11 +87,13 @@ class Shopping1(QtWidgets.QMainWindow):
                 self.products_data = {
                     'ID': product_details[0],
                     'name': product_details[1],
-                    'Description': product_details[2],
-                    'size': product_details[3],                
-                    'color': product_details[4],
-                    'price': product_details[5],
-                    'discount': product_details[7],
+                    'category': product_details[2],
+                    'description': product_details[3],   
+                    'size' : product_details[4],             
+                    'color': product_details[5],
+                    'price': product_details[6],
+                    'discount': product_details[7]
+                    
                 }
 
                 self.update_table(self.products_data)  # Update your table or interface here
@@ -125,7 +128,7 @@ class Shopping1(QtWidgets.QMainWindow):
                 # Fill in the table with the item details
      
         # Fill in the table with the item details
-        print("xhala")
+        print("update table called")
         for column, (key, value) in enumerate(item_details.items()):
             item = QTableWidgetItem(str(value))
             self.itemWidget.setItem(current_row, column, item)
@@ -163,29 +166,30 @@ class Shopping1(QtWidgets.QMainWindow):
                     if primary_key_item is not None:
                         primary_key_value = primary_key_item.text()
                         print(primary_key_value)
+                        if self.show_warning:
                         
-                        # Delete from the database
-                        connection = pyodbc.connect(connection_string)
-                        cursor = connection.cursor()
-                        cursor.execute("DELETE FROM cart WHERE product_id = ?", primary_key_value)
-                        print("id is : ", primary_key_value)
-                        connection.commit()
-                        
-                        # Remove row from the UI
-                        self.itemWidget.removeRow(selected_row)
-                        msg = QtWidgets.QMessageBox()
-                        msg.setText(f"product deleted with id = {primary_key_value}")
-                        msg.setWindowTitle("Item Deleted")
-                        msg.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
-                        msg.exec()
-                        
-                        # Recalculate the total bill after deletion
-                        total_bill_amount = self.calculate_bill()
+                            # Delete from the database
+                            connection = pyodbc.connect(connection_string)
+                            cursor = connection.cursor()
+                            cursor.execute("DELETE FROM cart WHERE product_id = ?", primary_key_value)
+                            print("deleted id is : ", primary_key_value)
+                            connection.commit()
+                            
+                            # Remove row from the UI
+                            self.itemWidget.removeRow(selected_row)
+                            msg = QtWidgets.QMessageBox()
+                            msg.setText(f"product deleted with id = {primary_key_value}")
+                            msg.setWindowTitle("Item Deleted")
+                            msg.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+                            msg.exec()
+                            
+                            # Recalculate the total bill after deletion
+                            total_bill_amount = self.calculate_bill()
 
-                        self.total.setText(str(total_bill_amount))
-                        
-                        connection.commit()
-                        connection.close()
+                            self.total.setText(str(total_bill_amount))
+                            
+                            connection.commit()
+                            connection.close()
 
             
            
@@ -195,29 +199,52 @@ class Shopping1(QtWidgets.QMainWindow):
             # proceed to payment window
     def paymentWindow(self):
       
-                    connection = pyodbc.connect(connection_string)
+                  
+                    try:
+                        connection = pyodbc.connect(connection_string)
+                        cursor = connection.cursor()
 
-                    cursor = connection.cursor()
-                    
-                    # cursor.execute("INSERT INTO orders (entry_id , customer_id) values (14, ?)", self.customer_id)
-                    
-                    
-                    
-                    cursor.commit()
-                    
-                    connection.close()
-                    
+                        cursor.execute("SELECT * FROM cart WHERE customer_id = ?;", self.customer_id)
+                        elements = cursor.fetchall()
+
+                        if elements:
+                            for ele in elements:  # Iterate through fetched elements, not self.elements
+                                self.grossTotal = ele[-1]
+                                self.paymentMethod = "cash"
+                                self.status = "pending"
+                                self.shipDate = None
+                                self.shipVia = "PAKISTAN POST"
+                                self.shipperID = 1
+                                # Get the current date
+                                current_date = QDate.currentDate()
+
+                                # Get the complete date as a formatted string (YYYY-MM-DD)
+                                self.formatted_date = current_date.toString("yyyy-MM-dd")
+
+                               
+                                cursor.execute("INSERT INTO ORDERS values(?,?,?,?,?,?,?,?)",self.customer_id, self.formatted_date, self.grossTotal,self.paymentMethod, self.status, self.shipDate, self.shipVia,self.shipperID )
+                                cursor.commit()
+                                warning = QMessageBox(self)
+                                warning.setWindowTitle("Order Placed")
+                                warning.setText(f"Your order has been placed with orderID {self.orderid} !! ")
+                                warning.setStandardButtons(QMessageBox.StandardButton.Ok)
+                                warning.setIcon(QMessageBox.Icon.Warning)
+                                dlg = warning.exec()
+                                
+                                
+                                cursor.execute("DELETE FROM CART")
+                                
+            
+
                  
-        
-                    warning = QMessageBox(self)
-                    warning.setWindowTitle("Order Placed")
-                    warning.setText("Your order has been placed with orderID !! ", 46)
-                    warning.setStandardButtons(QMessageBox.StandardButton.Ok)
-                    warning.setIcon(QMessageBox.Icon.Warning)
-                    dlg = warning.exec()
-        
-    def customerWindow(self):
-          uic.loadUi("newScreen.ui",self)
+                    except pyodbc.Error as e:
+                        print("Error:", e)  # Handle the exception appropriately
+
+                    finally:
+                        if 'connection' in locals():
+                            connection.close()  # Close the connection in the finally block
+
+                    
           
     def show_warning(self, flag):
                     
@@ -232,21 +259,27 @@ class Shopping1(QtWidgets.QMainWindow):
                         return flag
                     
     def calculate_bill(self):
-        
-        connection = pyodbc.connect(connection_string)
-        cursor = connection.cursor()
-             
-        cursor.execute("SELECT SUM(total - discount) AS total_bill_amount FROM cart c")
-        
-        
-        # Fetch the result and store it in a variable
-        total_bill_result = cursor.fetchone()
-        print(total_bill_result, "yahan bill")
-        total_bill_amount = total_bill_result[0]
-        
-        connection.commit()
-        connection.close()
-        return (total_bill_amount)
+            try:
+                connection = pyodbc.connect(connection_string)
+                cursor = connection.cursor()
+                
+                cursor.execute("SELECT SUM(ROUND(gross_total, 2)) FROM cart where customer_id = ?",self.customer_id)
+                
+                # Fetch the result and store it in a variable
+                total_bill_result = cursor.fetchone()
+                self.total_bill_amount = total_bill_result[0] if total_bill_result[0] is not None else 0
+                self.total_bill_amount = round(self.total_bill_amount, 2)  # Round to two decimal places
+                
+            except pyodbc.Error as e:
+                print("Error:", e)
+                self.total_bill_amount = 0
+            
+            finally:
+                if 'connection' in locals():
+                    connection.close()
+            
+            return self.total_bill_amount
+
      
         
     
