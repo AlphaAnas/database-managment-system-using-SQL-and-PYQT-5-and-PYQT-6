@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'd:\Third Semester files\database\project POSHAAK final\POSHAAK-database\App\Shopping.ui'
+# Form implementation generated from reading ui file 'd:\Third Semester files\database\project POSHAAK final\POSHAAK-database\Shopping.ui'
 #
 # Created by: PyQt6 UI code generator 6.5.2
 #

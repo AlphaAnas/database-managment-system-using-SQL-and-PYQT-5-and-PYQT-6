@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'd:\Third Semester files\database\project POSHAAK final\POSHAAK-database\App\admin_interface2.ui'
+# Form implementation generated from reading ui file 'd:\Third Semester files\database\project POSHAAK final\POSHAAK-database\admin_interface2.ui'
 #
 # Created by: PyQt6 UI code generator 6.5.2
 #

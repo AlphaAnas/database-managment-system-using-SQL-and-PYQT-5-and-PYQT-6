@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'd:\Third Semester files\database\project POSHAAK final\POSHAAK-database\App\CategoryInsert.ui'
+# Form implementation generated from reading ui file 'd:\Third Semester files\database\project POSHAAK final\POSHAAK-database\ShipperInsert.ui'
 #
 # Created by: PyQt6 UI code generator 6.5.2
 #
@@ -12,11 +12,11 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 600)
+        MainWindow.resize(800, 901)
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.label = QtWidgets.QLabel(parent=self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(60, 110, 81, 21))
+        self.label.setGeometry(QtCore.QRect(50, 110, 91, 21))
         self.label.setObjectName("label")
         self.IDLineEdit = QtWidgets.QLineEdit(parent=self.centralwidget)
         self.IDLineEdit.setGeometry(QtCore.QRect(150, 110, 261, 20))
@@ -24,21 +24,27 @@ class Ui_MainWindow(object):
         self.NameLineEdit = QtWidgets.QLineEdit(parent=self.centralwidget)
         self.NameLineEdit.setGeometry(QtCore.QRect(150, 150, 261, 20))
         self.NameLineEdit.setObjectName("NameLineEdit")
-        self.DesLineEdit = QtWidgets.QLineEdit(parent=self.centralwidget)
-        self.DesLineEdit.setGeometry(QtCore.QRect(150, 190, 261, 20))
-        self.DesLineEdit.setObjectName("DesLineEdit")
+        self.ContactLineEdit = QtWidgets.QLineEdit(parent=self.centralwidget)
+        self.ContactLineEdit.setGeometry(QtCore.QRect(150, 190, 261, 20))
+        self.ContactLineEdit.setObjectName("ContactLineEdit")
+        self.EmailLineEdit = QtWidgets.QLineEdit(parent=self.centralwidget)
+        self.EmailLineEdit.setGeometry(QtCore.QRect(150, 230, 261, 20))
+        self.EmailLineEdit.setObjectName("EmailLineEdit")
         self.label_2 = QtWidgets.QLabel(parent=self.centralwidget)
-        self.label_2.setGeometry(QtCore.QRect(60, 150, 81, 21))
+        self.label_2.setGeometry(QtCore.QRect(50, 150, 91, 21))
         self.label_2.setObjectName("label_2")
         self.label_3 = QtWidgets.QLabel(parent=self.centralwidget)
-        self.label_3.setGeometry(QtCore.QRect(60, 190, 81, 21))
+        self.label_3.setGeometry(QtCore.QRect(50, 190, 91, 21))
         self.label_3.setObjectName("label_3")
+        self.label_4 = QtWidgets.QLabel(parent=self.centralwidget)
+        self.label_4.setGeometry(QtCore.QRect(50, 230, 91, 21))
+        self.label_4.setObjectName("label_4")
         self.InsertButton = QtWidgets.QPushButton(parent=self.centralwidget)
         self.InsertButton.setGeometry(QtCore.QRect(500, 260, 81, 31))
         self.InsertButton.setObjectName("InsertButton")
-        self.label_4 = QtWidgets.QLabel(parent=self.centralwidget)
-        self.label_4.setGeometry(QtCore.QRect(250, 20, 221, 31))
-        self.label_4.setObjectName("label_4")
+        self.label_5 = QtWidgets.QLabel(parent=self.centralwidget)
+        self.label_5.setGeometry(QtCore.QRect(184, 20, 241, 31))
+        self.label_5.setObjectName("label_5")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(parent=MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -50,8 +56,9 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.label.setText(_translate("MainWindow", "CategoryID"))
+        self.label.setText(_translate("MainWindow", "ShipperID"))
         self.label_2.setText(_translate("MainWindow", "Name"))
-        self.label_3.setText(_translate("MainWindow", "Description"))
+        self.label_3.setText(_translate("MainWindow", "Contact Number"))
+        self.label_4.setText(_translate("MainWindow", "Email"))
         self.InsertButton.setText(_translate("MainWindow", "Insert"))
-        self.label_4.setText(_translate("MainWindow", "Insert New Category"))
+        self.label_5.setText(_translate("MainWindow", "Insert New Shipper"))

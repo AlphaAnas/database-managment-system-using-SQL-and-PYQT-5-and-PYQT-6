@@ -224,6 +224,8 @@ class Shopping1(QtWidgets.QMainWindow):
                                
                                 cursor.execute("INSERT INTO ORDERS values(?,?,?,?,?,?,?,?)",self.customer_id, self.formatted_date, self.grossTotal,self.paymentMethod, self.status, self.shipDate, self.shipVia,self.shipperID )
                                 cursor.commit()
+                                cursor.execute("select max(order_id) from orders where customer_id = ?", self.customer_id)
+                                self.orderid = cursor.fetchone()[0]
                                 warning = QMessageBox(self)
                                 warning.setWindowTitle("Order Placed")
                                 warning.setText(f"Your order has been placed with orderID {self.orderid} !! ")
