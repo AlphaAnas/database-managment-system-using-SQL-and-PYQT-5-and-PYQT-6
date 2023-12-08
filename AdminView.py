@@ -93,10 +93,10 @@ class AdminView1(QMainWindow):
 
     def show_orders(self):
         # Getting the selected date from the OrdersDateEdit
-        selected_date = self.OrdersDateEdit.date().toString("yyyy-MM-dd")
+        selected_date = self.OrdersDateEdit.date().toString("dd-MM-yyyy")
 
         # Constructing the SQL query based on the selected date
-        if selected_date == "2000-01-01":
+        if selected_date == "01-01-2000":
             sql_query = "SELECT * FROM Orders"
         else:
             sql_query = f"SELECT * FROM Orders WHERE order_date = '{selected_date}'"

@@ -88,13 +88,14 @@ class UI(QtWidgets.QMainWindow):
                     print(ele , " <= data ")
                 cart_info = (
                     int(self.columns_data[0]),
+                    self.customer_id,
                     float(self.columns_data[-2]) - (float(self.columns_data[-1])),
                     float(self.columns_data[-1]),
                     float(self.columns_data[-2])
                     )
                 
                                 
-                qu = "INSERT INTO cart (product_id, total, discount, gross_total) VALUES (?, ?, ?, ?)"
+                qu = "INSERT INTO cart (product_id,customer_id, total, discount, gross_total) VALUES (?, ?, ?, ?, ?)"
                 cursor.execute(qu, cart_info)
                 
 
@@ -249,13 +250,15 @@ class UI(QtWidgets.QMainWindow):
 
         select_all_query = """
                 SELECT
+                p.id,
                 p.name,
                 c.name AS category_name,
                 p.color,
                 p.size,
                 b.brand_name AS brand_name,
                 p.[quantity_in_stock,],
-                p.price
+                p.price,
+                p.discount
                 FROM products p
                 JOIN product_brand pb ON p.id = pb.product_id
                 JOIN brands b ON b.id = pb.brand_id
@@ -270,12 +273,14 @@ class UI(QtWidgets.QMainWindow):
         # Loop through the rows and print details
         for product_details in all_products:
             item_details = {
-                'name': product_details[0],
-                'category': product_details[1],
-                'color': product_details[2],
-                'size': product_details[3],
-                'brand': product_details[4],
-                'price': product_details[6]
+                'ID':product_details[0],
+                'name': product_details[1],
+                'category': product_details[2],
+                'color': product_details[3],
+                'size': product_details[4],
+                'brand': product_details[5],
+                'price': product_details[7],
+                'Discount':product_details[8]
             }
 
             

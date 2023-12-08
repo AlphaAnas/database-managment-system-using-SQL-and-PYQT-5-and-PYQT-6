@@ -80,7 +80,7 @@ class UI(QtWidgets.QMainWindow):
                 [quantity_in_stock,], 
                 [price]
             FROM products
-            JOIN product_brand ON products.id = product_brand.product_id
+             JOIN product_brand ON products.id = product_brand.product_id
         """
 
 
@@ -248,6 +248,7 @@ class addScreen(QtWidgets.QMainWindow):
         
         self.save_button = self.findChild(QPushButton, "add_but")
         self.P_id = self.findChild(QLineEdit, "product_id")
+        self.P_id.setDisabled(True)
         self.name = self.findChild(QLineEdit, "name")
         self.color = self.findChild(QComboBox, "color")
         self.sizee = self.findChild(QComboBox, "size")
@@ -285,7 +286,7 @@ class addScreen(QtWidgets.QMainWindow):
             cursor = connection.cursor()
 
             new_product = (
-                int(self.P_id.text()),  # Assuming ProductID is an integer
+               # int(self.P_id.text()),  # Assuming ProductID is an integer
                 str(self.name.text()),  # Assuming Name is a varchar
                 str(self.category.text()),  # Assuming Category is a varchar
                 str(self.discription.text()),  # Assuming Description is text
@@ -298,11 +299,32 @@ class addScreen(QtWidgets.QMainWindow):
             
             insert_query = """
                             INSERT INTO products
-                            ([id], [name], [category], [description], [size], [color], [price], [discount], [quantity_in_stock,] )
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                            ( [name], [category], [description], [size], [color], [price], [discount], [quantity_in_stock,] )
+                            VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)
                         """
+            
             cursor.execute(insert_query, new_product)
             connection.commit()  # Commit the transaction
+            cursor.execute("SELECT TOP 1 id FROM products ORDER BY id DESC")
+            self.productid = cursor.fetchone()
+            
+            
+
+            # Extract the ID value from the tuple fetched
+            if self.productid:
+                
+                self.product_id1 = self.productid[0]  # Extracting the ID value
+                print(self.productid1, 'jajka')
+
+            # Insert into PRODUCT_BRANDS using the retrieved product_id and self.brand
+            insert_brand_query = "INSERT INTO PRODUCT_BRANDS VALUES (?, ?)"
+            cursor.execute(insert_brand_query, (self.product_id1, self.brand))
+           
+        
+            connection.commit()
+
+            
+
 
             # Display a success message box
             QMessageBox.information(self, "Success", "Product added successfully!")

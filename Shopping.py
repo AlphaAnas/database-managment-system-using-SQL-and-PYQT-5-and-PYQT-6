@@ -51,7 +51,8 @@ class Shopping1(QtWidgets.QMainWindow):
         
         self.continueButton.clicked.connect(self.back)
        
-        self.checkoutButton.clicked.connect(self.paymentWindow)
+        self.checkoutButton1 = self.findChild(QPushButton, "checkoutButton")
+        self.checkoutButton1.clicked.connect(self.paymentWindow())
             
 
                 # TODO: Write SQL query to fetch orders data
@@ -69,7 +70,7 @@ class Shopping1(QtWidgets.QMainWindow):
         
           
         print(self.customer_id, 'customer id2')
-        cursor.execute( " SELECT product_id FROM cart WHERE id = ?  GROUP BY product_id;", self.customer_id)
+        cursor.execute( " SELECT product_id FROM cart WHERE customer_id = ?  GROUP BY product_id;", self.customer_id)
        
         entry_ids = cursor.fetchall()
       
@@ -210,7 +211,7 @@ class Shopping1(QtWidgets.QMainWindow):
         
                     warning = QMessageBox(self)
                     warning.setWindowTitle("Order Placed")
-                    warning.setText("Your order has been placed with orderID !! ", self.order_id)
+                    warning.setText("Your order has been placed with orderID !! ", 46)
                     warning.setStandardButtons(QMessageBox.StandardButton.Ok)
                     warning.setIcon(QMessageBox.Icon.Warning)
                     dlg = warning.exec()
