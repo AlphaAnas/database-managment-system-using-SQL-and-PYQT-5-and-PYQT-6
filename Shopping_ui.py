@@ -94,7 +94,7 @@ class Ui_MainWindow(object):
         item = self.itemWidget.horizontalHeaderItem(7)
         item.setText(_translate("MainWindow", "Discount(if any)"))
         self.label_4.setText(_translate("MainWindow", "Total"))
-        self.checkoutButton.setText(_translate("MainWindow", "Checkout"))
+        self.checkoutButton.setText(_translate("MainWindow", "Order Now !"))
         self.continueButton.setText(_translate("MainWindow", "Continue Shopping"))
         self.deleteButton.setText(_translate("MainWindow", "Delete"))
         self.backButton.setText(_translate("MainWindow", "Back"))

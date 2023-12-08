@@ -139,6 +139,11 @@
      </property>
      <column>
       <property name="text">
+       <string>Product_id</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
        <string>Item Name</string>
       </property>
      </column>
@@ -165,6 +170,11 @@
      <column>
       <property name="text">
        <string>Price</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Discount</string>
       </property>
      </column>
     </widget>
@@ -199,8 +209,8 @@
       <rect>
        <x>40</x>
        <y>450</y>
-       <width>75</width>
-       <height>23</height>
+       <width>121</width>
+       <height>31</height>
       </rect>
      </property>
      <property name="text">
@@ -233,7 +243,7 @@
      <x>0</x>
      <y>0</y>
      <width>690</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

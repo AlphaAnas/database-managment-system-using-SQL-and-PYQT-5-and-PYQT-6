@@ -5,11 +5,12 @@ from PyQt5 import uic
 from PyQt5.QtCore import pyqtSignal
 import pyodbc
 import Shopping
-server = 'DESKTOP-QJN0C6R\SHAPATER'
+
+server = 'DESKTOP-6367D0S'
 database = 'POSHAAK'  # Name of your Northwind database
-use_windows_authentication = True  # Set to True to use Windows Authentication
-username = ''  # Specify a username if not using Windows Authentication
-password = ''  # Specify a password if not using Windows Authentication
+use_windows_authentication = False  # Set to True to use Windows Authentication
+username = 'sa'  # Specify a username if not using Windows Authentication
+password = 'anasking'  # Specify a password if not using Windows Authentication
 
 
 # # Create the connection string based on the authentication method chosen
@@ -17,7 +18,6 @@ if use_windows_authentication:
     connection_string = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};Trusted_Connection=yes;'
 else:
     connection_string = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
-
 
 
 class UI(QtWidgets.QMainWindow):
@@ -52,11 +52,14 @@ class UI(QtWidgets.QMainWindow):
         
         #add to cart functionality
         self.carting=self.findChild(QPushButton, "cart_but")
+        self.cart_but.setDisabled(True)
         self.tableWidget.itemClicked.connect(self.open_cart_screen)
 
     def open_cart_screen(self, item):
         row = item.row()
         self.columns_data = []
+        self.cart_but.setDisabled(False)
+       
 
         for col in range(self.tableWidget.columnCount()):
             self.columns_data.append(self.tableWidget.item(row, col).text()) 
@@ -64,14 +67,14 @@ class UI(QtWidgets.QMainWindow):
         #here we have to connect carting button ro process the availiale information
        
         
-        
-        if self.columns_data is not None:
-                
-                self.carting.clicked.connect(self.openCart)
-        else:     
             
-            error_message = "Error: No row is selected."
-            QMessageBox.critical(self, "Error", error_message)
+            if self.columns_data is not None:
+                    
+                    self.carting.clicked.connect(self.openCart)
+            else:     
+                
+                error_message = "Error: No row is selected."
+                QMessageBox.critical(self, "Error", error_message)
 
 
         # QMessageBox.information(self, "Row Clicked", f"You clicked on row {row} with data: {columns_data}")
@@ -80,12 +83,13 @@ class UI(QtWidgets.QMainWindow):
                 
                 connection = pyodbc.connect(connection_string)
                 cursor = connection.cursor()
-
+                for ele in self.columns_data:
+                    print(ele , " <= data ")
                 cart_info = (
                     int(self.columns_data[0]),
-                    float(self.columns_data[-2]) ,
+                    float(self.columns_data[-2]) - (float(self.columns_data[-1])),
                     float(self.columns_data[-1]),
-                    float(self.columns_data[-2]) - (float(self.columns_data[-1]))
+                    float(self.columns_data[-2])
                     )
                 
                                 
@@ -95,17 +99,14 @@ class UI(QtWidgets.QMainWindow):
 
                 connection.commit()
 
-                if self.columns_data is not None:
-                        self.carting.clicked.connect(self.openCart)
-                        self.cart = Shopping.Shopping1()
-                        self.cart.show()
 
-                 
-        
-                else:     
-                        error_message = "Error: No row is selected."
-                        QMessageBox.critical(self, "Error", error_message)
+                QMessageBox.information(self, "Success", "Product has been added to the cart successfully!")
+                self.cart = Shopping.Shopping1()
+                self.cart.show()
+               
+
                 connection.close()
+        
         
     def populate_items_screen(self):
             # inorder to populate the items you should have keys in product_brand bridge table AND items in brands and well categories.

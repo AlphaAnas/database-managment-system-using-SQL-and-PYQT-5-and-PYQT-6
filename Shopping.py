@@ -36,7 +36,7 @@ class Shopping1(QtWidgets.QMainWindow):
         
         cursor.execute("select count(id) as number from cart; " )
         number = cursor.fetchone()
-        rows = number[0] #store the total number of rows to display
+        self.rows = number[0] #store the total number of rows to display
         
         cursor.execute("select* from cart;")
         products_data = cursor.fetchall()
@@ -45,7 +45,7 @@ class Shopping1(QtWidgets.QMainWindow):
        
        
         # populating the cart
-        self.itemWidget.setRowCount(rows)
+        self.itemWidget.setRowCount(self.rows)
         for i, row_data in enumerate(products_data):
                 for j, data in enumerate(row_data):
                         item = QtWidgets.QTableWidgetItem(str(data))  # Convert data to string and create a QTableWidgetItem
@@ -145,9 +145,36 @@ class Shopping1(QtWidgets.QMainWindow):
               
             # proceed to payment window
     def paymentWindow(self):
+        ##yahan pr hn 
+                    connection = pyodbc.connect(connection_string)
+
+                    cursor = connection.cursor()
+                    
+                    self.data = []
+                    cursor.execute("select count(id) as number from cart; " )
+                    number = cursor.fetchone()
+                    self.rows = number[0] #store the total number of rows to display
+
+                    # Loop through the table and add elements to the array
+                    for row in range(self.rows):
+                        for col in range(self.tableWidget.columnCount()):
+                            item_text = self.tableWidget.item(row, col).text()
+                            self.data.append(item_text)
+                    
+                    cursor.execute("select count(id) as number from cart; " )
+                    
+                    cursor.commit()
+                    
+                    connection.close()
+                    
+                 
         
-        self.signup1 = Payment.MakePayment()
-        self.signup1.show()
+                    warning = QMessageBox(self)
+                    warning.setWindowTitle("Order Placed")
+                    warning.setText("Your order has been placed with orderID !! ", self.order_id)
+                    warning.setStandardButtons(QMessageBox.StandardButton.Ok)
+                    warning.setIcon(QMessageBox.Icon.Warning)
+                    dlg = warning.exec()
         
     def customerWindow(self):
           uic.loadUi("newScreen.ui",self)
