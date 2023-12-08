@@ -57,8 +57,10 @@ class UI(QtWidgets.QMainWindow):
         self.carting=self.findChild(QPushButton, "cart_but")
         self.cart_but.setDisabled(True)
         self.tableWidget.itemClicked.connect(self.open_cart_screen)
+        self.carting.clicked.connect(self.openCart)
 
     def open_cart_screen(self, item):
+        print("what is itme ?", item)
         row = item.row()
         self.columns_data = []
         self.cart_but.setDisabled(False)
@@ -72,8 +74,9 @@ class UI(QtWidgets.QMainWindow):
         
         
         if self.columns_data is not None:
+            "print(row is selected)"
                 
-                self.carting.clicked.connect(self.openCart)
+           
         else:     
             
             error_message = "Error: No row is selected."

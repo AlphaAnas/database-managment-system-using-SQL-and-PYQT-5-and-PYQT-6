@@ -123,6 +123,7 @@ class Shopping1(QtWidgets.QMainWindow):
    
     def update_table(self, item_details):
         # Add a new row to the table
+        
         current_row = self.itemWidget.rowCount()
         self.itemWidget.insertRow(current_row)   
                 # Fill in the table with the item details
@@ -150,6 +151,20 @@ class Shopping1(QtWidgets.QMainWindow):
         self.hide()
         
     def delete(self):
+        connection = pyodbc.connect(connection_string)
+        cursor = connection.cursor()
+        cursor.execute("select count(entry_id) as number from cart; " )
+        number = cursor.fetchone()
+        print("elements in the cart : ", number)
+        if number[0] == 0:
+            warning = QMessageBox(self)
+            warning.setWindowTitle("Warning")
+            warning.setText(f"Can not delete from empty cart!! ")
+            warning.setStandardButtons(QMessageBox.StandardButton.Ok)
+            warning.setIcon(QMessageBox.Icon.Warning)
+            dlg = warning.exec()
+        connection.close()
+                                
         selected_row = self.itemWidget.currentRow()
       
         if selected_row == None:
@@ -235,6 +250,14 @@ class Shopping1(QtWidgets.QMainWindow):
                                 
                                 
                                 cursor.execute("DELETE FROM CART")
+                        else:
+                                warning = QMessageBox(self)
+                                warning.setWindowTitle("Empty Cart")
+                                warning.setText("Please insert a product in your cart first !! ")
+                                warning.setStandardButtons(QMessageBox.StandardButton.Ok)
+                                warning.setIcon(QMessageBox.Icon.Warning)
+                                dlg = warning.exec()
+                                        
                                 
             
 
