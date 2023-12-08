@@ -3,6 +3,7 @@ from PyQt5 import QtWidgets, uic
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidgetItem, QDateEdit, QLineEdit, QComboBox, QPushButton, QVBoxLayout, QGroupBox, QMessageBox, QDialog, QVBoxLayout, QLabel
 from PyQt5.uic import loadUi
 import pyodbc
+import addmin_interface
 
 server = 'DESKTOP-6367D0S'
 database = 'POSHAAK'  # Name of your Northwind database
@@ -32,6 +33,9 @@ class AdminView1(QMainWindow):
         # Connecting buttons to their respective functions
         self.ClearButton.clicked.connect(self.clear_data)
         self.ShowButton.clicked.connect(self.show_data)
+        
+        self.view_product=self.findChild(QPushButton,"ViewProductsButton")
+        self.view_product.clicked.connect(self.open_products_screen)
 
         # Connecting delete buttons to their respective functions
         self.OrdersDeleteButton.clicked.connect(self.delete_selected_orders)
@@ -46,6 +50,10 @@ class AdminView1(QMainWindow):
         self.DeliveryInsertButton.clicked.connect(self.open_delivery_insert_window)
 
         self.show_data()
+        
+    def open_products_screen(self):
+        self.pro_screen = addmin_interface.UI()
+        self.pro_screen.show()
 
     def clear_data(self):
         # Clearing data in all table widgets

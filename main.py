@@ -28,6 +28,7 @@ class UI(QMainWindow):
          # Call the inherited classes __init__ method
         super(UI, self).__init__() 
         # Load the .ui file
+        self.customer_id = 0000
         uic.loadUi('login form.ui', self) 
         self.setWindowTitle("POSHAAK DBMS ! ")
         self.password.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
@@ -91,10 +92,32 @@ class UI(QMainWindow):
         else:
             cursor.execute("SELECT CASE WHEN EXISTS (SELECT 1 FROM customers WHERE last_name = ? AND password = ? and account_type = ?) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END AS UserExists;", (self.userName, self.user_password, "normal"))
             self.flag = "user"
+            
 
         user_exists = cursor.fetchone()[0]  # Fetch the result of EXISTS check
-        print(user_exists)
+        
+        
         connection.close()
+        if user_exists and self.flag =="user":  # Check if customer data is retrieved
+            connection = pyodbc.connect(connection_string)
+            cursor = connection.cursor()
+            cursor.execute("SELECT * FROM customers WHERE last_name = ? AND password = ? and account_type = ? ;", (self.userName, self.user_password, "normal"))
+            
+            customer_data1 = cursor.fetchone() 
+            self.customer_id = customer_data1[0]  # Assuming customer_id is at the 0th index
+            print("customer id ", self.customer_id)
+            connection.commit()
+            
+        
+
+       
+        print(user_exists, 'nhin nhi')
+        
+        # customer_id = cursor.fetchone()  # Fetch the customer_id
+        # if customer_id:  # Check if customer_id is retrieved
+        #     self.customer_id = customer_id[0]  # 
+        #     print("customer id ", self.customer_id)
+       
 
         if user_exists:
             warning = QMessageBox(self)
@@ -108,7 +131,7 @@ class UI(QMainWindow):
                 self.ad = AdminView.AdminView1()
                 self.ad.show()
             elif self.flag == "user":
-                self.cu = customer_interface.UI()
+                self.cu = customer_interface.UI(self.customer_id)
                 self.cu.show()
 
         else:

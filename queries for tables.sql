@@ -79,19 +79,36 @@ VALUES
 select* from orders
 
 
-INSERT INTO cart (product_id, total, discount, gross_total)
+INSERT INTO cart (	customer_id,	product_id,	total,	discount,	gross_total)
 VALUES 
-( 24, 25.99, 1, 24.99),
-( 24, 10.50,0.5, 10),
-( 25, 5.00,0, 5.00),
-( 27, 15.75,0, 15.75);
+(2, 28, 15.75,0, 15.75),
+(18, 28, 15.75,0, 15.75),
+(19, 28, 15.75,0, 15.75),
+(2, 24, 25.99, 1, 24.99),
+(2, 24, 10.50,0.5, 10),
+(2, 25, 5.00,0, 5.00),
+(2, 27, 15.75,0, 15.75);
 
+select* from cart
 
+select* from orders
+
+DELETE from cart
 select * from cart
 
-
+insert into customers values('b','d','c','normal')
 select* from customers
 
+
+
+				SELECT entry_id 
+				FROM cart 
+				WHERE customer_id = 2  
+				GROUP BY entry_id;
+				
+
+
+select * from products where id = 25
 
 
 

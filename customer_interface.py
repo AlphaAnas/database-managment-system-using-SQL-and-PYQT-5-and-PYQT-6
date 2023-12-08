@@ -21,12 +21,13 @@ else:
 
 
 class UI(QtWidgets.QMainWindow):
-    def __init__(self):
+    def __init__(self, customer_id):
     # Call the inherited classes __init__ method
         super(UI, self).__init__()
         # Load the .ui file
         uic.loadUi('Catalogue_screen.ui', self)
-        # Show the GUI
+        # Show the 
+        self.customer_id = customer_id
         self.show()
 
         self.temp={}
@@ -67,14 +68,14 @@ class UI(QtWidgets.QMainWindow):
         #here we have to connect carting button ro process the availiale information
        
         
-            
-            if self.columns_data is not None:
-                    
-                    self.carting.clicked.connect(self.openCart)
-            else:     
+        
+        if self.columns_data is not None:
                 
-                error_message = "Error: No row is selected."
-                QMessageBox.critical(self, "Error", error_message)
+                self.carting.clicked.connect(self.openCart)
+        else:     
+            
+            error_message = "Error: No row is selected."
+            QMessageBox.critical(self, "Error", error_message)
 
 
         # QMessageBox.information(self, "Row Clicked", f"You clicked on row {row} with data: {columns_data}")
@@ -101,7 +102,7 @@ class UI(QtWidgets.QMainWindow):
 
 
                 QMessageBox.information(self, "Success", "Product has been added to the cart successfully!")
-                self.cart = Shopping.Shopping1()
+                self.cart = Shopping.Shopping1(self.customer_id)
                 self.cart.show()
                
 
