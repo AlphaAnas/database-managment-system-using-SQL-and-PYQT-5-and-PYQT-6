@@ -77,29 +77,35 @@ class UI(QtWidgets.QMainWindow):
         # QMessageBox.information(self, "Row Clicked", f"You clicked on row {row} with data: {columns_data}")
 
     def openCart(self):
-              
                 
                 connection = pyodbc.connect(connection_string)
                 cursor = connection.cursor()
 
                 cart_info = (
-                    self.columns_data[0],
-                    float(self.columns_data[-2]) - (float(self.columns_data[-1])),
+                    int(self.columns_data[0]),
+                    float(self.columns_data[-2]) ,
                     float(self.columns_data[-1]),
-                    float(self.columns_data[-2])
+                    float(self.columns_data[-2]) - (float(self.columns_data[-1]))
                     )
                 
-                print("first....", type(cart_info[0]))
                                 
-                qu = "INSERT INTO cart ([product_id], [total], [discount], [gross_total]) VALUES (?, ?, ?, ?)"
+                qu = "INSERT INTO cart (product_id, total, discount, gross_total) VALUES (?, ?, ?, ?)"
                 cursor.execute(qu, cart_info)
-                print("second..")
+                
 
+                connection.commit()
 
-               
+                if self.columns_data is not None:
+                        self.carting.clicked.connect(self.openCart)
+                        self.cart = Shopping.Shopping1()
+                        self.cart.show()
 
-                connection.close()
+                 
         
+                else:     
+                        error_message = "Error: No row is selected."
+                        QMessageBox.critical(self, "Error", error_message)
+                connection.close()
         
     def populate_items_screen(self):
             # inorder to populate the items you should have keys in product_brand bridge table AND items in brands and well categories.

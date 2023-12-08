@@ -29,6 +29,7 @@ class UI(QMainWindow):
         super(UI, self).__init__() 
         # Load the .ui file
         uic.loadUi('login form.ui', self) 
+        self.setWindowTitle("POSHAAK DBMS ! ")
         self.password.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
 
       

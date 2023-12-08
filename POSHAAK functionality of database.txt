@@ -1,0 +1,28 @@
+PROJECT START 
+
+login as a customer 
+	open products catalogue
+	filter by cateogory -> size -> Dress_name->color 
+	press search
+	
+	view all items of products
+	REFRESH BUTTON
+	ADD TO CART BUTTON 
+	CLOSE BUTTON
+add to cart opens cart 
+	delete item by selecting
+	go back to products / continue shopping 
+	Checkout will take you to payment window
+payment window:
+
+
+
+login as an admin :
+	see SHIPPERS , PRODUCTS CATEGORIES, DELIVERY AREAS , CUSTOMERS
+         DELETE any of the row in the above table
+	search particulars
+	INSERT delivery areas , category and shippers
+	GO BACK
+	View products
+	
+view products will take you to screen where you can edit products

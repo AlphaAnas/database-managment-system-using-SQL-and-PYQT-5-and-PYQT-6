@@ -20,7 +20,7 @@ class Ui_MainWindow(object):
         self.widget.setObjectName("widget")
         self.label = QtWidgets.QLabel(parent=self.widget)
         self.label.setGeometry(QtCore.QRect(-10, 30, 561, 531))
-        self.label.setStyleSheet("border-image: url(:/images/background.jpeg);\n"
+        self.label.setStyleSheet("border-image: url(background.jpeg);\n"
 "border-radius: 25px;")
         self.label.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.label.setText("")
@@ -32,7 +32,7 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.label_3.setFont(font)
-        self.label_3.setStyleSheet("color: rgba(255,255,255,210);\n"
+        self.label_3.setStyleSheet("color: rgba(0,0,0,1);\n"
 "")
         self.label_3.setObjectName("label_3")
         self.userName = QtWidgets.QLineEdit(parent=self.widget)
@@ -123,7 +123,10 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setFamily("Rockwell")
         font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
         self.adminCheck.setFont(font)
+        self.adminCheck.setAutoFillBackground(True)
         self.adminCheck.setObjectName("adminCheck")
         self.label_2.raise_()
         self.label.raise_()

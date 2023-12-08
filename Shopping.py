@@ -34,7 +34,7 @@ class Shopping1(QtWidgets.QMainWindow):
 
                 # TODO: Write SQL query to fetch orders data
         
-        cursor.execute("select count(id) as number from products; " )
+        cursor.execute("select count(id) as number from cart; " )
         number = cursor.fetchone()
         rows = number[0] #store the total number of rows to display
         
@@ -121,14 +121,20 @@ class Shopping1(QtWidgets.QMainWindow):
                         connection = pyodbc.connect(connection_string)
                         cursor = connection.cursor()
                         cursor.execute("DELETE FROM cart WHERE entry_id = ?", primary_key_value)
+                        print("id is : ", primary_key_value)
                         connection.commit()
                         
                         # Remove row from the UI
                         self.itemWidget.removeRow(selected_row)
+                        msg = QtWidgets.QMessageBox()
+                        msg.setText(f"product deleted with id = {primary_key_value}")
+                        msg.setWindowTitle("Item Deleted")
+                        msg.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+                        msg.exec()
                         
                         # Recalculate the total bill after deletion
-                        total_bill_amount = self.calculate_bill()
-                        self.total.setText(str(total_bill_amount))
+                        self.total_bill_amount = self.calculate_bill
+                        self.total.setText(str(self.total_bill_amount))
                         
                         connection.commit()
 
@@ -168,9 +174,11 @@ class Shopping1(QtWidgets.QMainWindow):
         
         # Fetch the result and store it in a variable
         total_bill_result = cursor.fetchone()
+        print(total_bill_result, "yahan bill mein msla hei ")
         total_bill_amount = total_bill_result[0]
         
         connection.commit()
+        connection.close()
         return str(total_bill_amount)
      
         

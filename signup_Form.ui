@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">border-image: url(:/images/signupImage.jpeg);
+     <string notr="true">border-image: url(signupImage.jpeg);
 border-top-left-radius:50px;</string>
     </property>
     <property name="text">

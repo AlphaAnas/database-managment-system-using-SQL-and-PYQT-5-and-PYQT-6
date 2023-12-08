@@ -17,7 +17,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         self.label = QtWidgets.QLabel(parent=self.centralwidget)
         self.label.setGeometry(QtCore.QRect(20, 60, 381, 511))
-        self.label.setStyleSheet("border-image: url(:/images/signupImage.jpeg);\n"
+        self.label.setStyleSheet("border-image: url(signupImage.jpeg);\n"
 "border-top-left-radius:50px;")
         self.label.setText("")
         self.label.setObjectName("label")

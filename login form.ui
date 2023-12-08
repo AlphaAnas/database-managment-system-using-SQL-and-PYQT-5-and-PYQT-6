@@ -33,7 +33,7 @@
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">border-image: url(:/images/background.jpeg);
+      <string notr="true">border-image: url(background.jpeg);
 border-radius: 25px;</string>
      </property>
      <property name="frameShadow">
@@ -60,7 +60,7 @@ border-radius: 25px;</string>
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">color: rgba(255,255,255,210);
+      <string notr="true">color: rgba(0,0,0,1);
 </string>
      </property>
      <property name="text">
@@ -233,7 +233,12 @@ border-radius: 15px;</string>
       <font>
        <family>Rockwell</family>
        <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
+     </property>
+     <property name="autoFillBackground">
+      <bool>true</bool>
      </property>
      <property name="text">
       <string>Admin</string>
