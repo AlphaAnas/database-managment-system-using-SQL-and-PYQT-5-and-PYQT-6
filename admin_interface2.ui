@@ -23,7 +23,7 @@
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>80</y>
+      <y>70</y>
       <width>47</width>
       <height>13</height>
      </rect>
@@ -40,10 +40,10 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>110</y>
-      <width>81</width>
-      <height>16</height>
+      <x>50</x>
+      <y>100</y>
+      <width>91</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="font">
@@ -115,7 +115,7 @@
       <x>60</x>
       <y>230</y>
       <width>71</width>
-      <height>16</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="font">
@@ -130,8 +130,8 @@
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>260</y>
+      <x>70</x>
+      <y>270</y>
       <width>47</width>
       <height>13</height>
      </rect>
@@ -148,50 +148,20 @@
    <widget class="QLineEdit" name="name">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>80</y>
-      <width>281</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="category">
-    <property name="geometry">
-     <rect>
       <x>180</x>
-      <y>110</y>
-      <width>271</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="b">
-    <property name="geometry">
-     <rect>
-      <x>190</x>
-      <y>200</y>
-      <width>251</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="quantity">
-    <property name="geometry">
-     <rect>
-      <x>190</x>
-      <y>230</y>
-      <width>241</width>
-      <height>20</height>
+      <y>60</y>
+      <width>281</width>
+      <height>31</height>
      </rect>
     </property>
    </widget>
    <widget class="QLineEdit" name="price">
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>180</x>
       <y>260</y>
       <width>231</width>
-      <height>20</height>
+      <height>21</height>
      </rect>
     </property>
    </widget>
@@ -211,95 +181,17 @@
    <widget class="QComboBox" name="color">
     <property name="geometry">
      <rect>
-      <x>190</x>
+      <x>180</x>
       <y>170</y>
       <width>261</width>
       <height>22</height>
-     </rect>
-    </property>
-    <item>
-     <property name="text">
-      <string>Blue</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Red</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Black</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Green</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Purple</string>
-     </property>
-    </item>
-   </widget>
-   <widget class="QComboBox" name="size">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>140</y>
-      <width>261</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <item>
-     <property name="text">
-      <string>L</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>M</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>S</string>
-     </property>
-    </item>
-   </widget>
-   <widget class="QLabel" name="label_8">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>50</y>
-      <width>47</width>
-      <height>13</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Pro_id</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="product_id">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>50</y>
-      <width>271</width>
-      <height>20</height>
      </rect>
     </property>
    </widget>
    <widget class="QLineEdit" name="discription">
     <property name="geometry">
      <rect>
-      <x>210</x>
+      <x>180</x>
       <y>320</y>
       <width>251</width>
       <height>41</height>
@@ -310,9 +202,9 @@
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>320</y>
+      <y>330</y>
       <width>91</width>
-      <height>16</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="font">
@@ -321,14 +213,14 @@
      </font>
     </property>
     <property name="text">
-     <string>Discription</string>
+     <string>Description</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_10">
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>283</y>
+      <y>290</y>
       <width>71</width>
       <height>20</height>
      </rect>
@@ -345,7 +237,7 @@
    <widget class="QLineEdit" name="discount">
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>180</x>
       <y>290</y>
       <width>251</width>
       <height>20</height>
@@ -365,6 +257,46 @@
      <string>Close</string>
     </property>
    </widget>
+   <widget class="QComboBox" name="category">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>100</y>
+      <width>261</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="brand">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>200</y>
+      <width>261</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="Quantity">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>230</y>
+      <width>181</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="size">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>140</y>
+      <width>113</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -375,6 +307,12 @@
      <height>26</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuProduct_Enter">
+    <property name="title">
+     <string>Product Enter</string>
+    </property>
+   </widget>
+   <addaction name="menuProduct_Enter"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

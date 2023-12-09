@@ -243,115 +243,325 @@ class addScreen(QtWidgets.QMainWindow):
         uic.loadUi('Admin_interface2.ui', self)
 
         self.setWindowTitle("Add Item")
+        
 
 
         
         self.save_button = self.findChild(QPushButton, "add_but")
-        self.P_id = self.findChild(QLineEdit, "product_id")
-        self.P_id.setDisabled(True)
-        self.name = self.findChild(QLineEdit, "name")
-        self.color = self.findChild(QComboBox, "color")
-        self.sizee = self.findChild(QComboBox, "size")
-        self.brand = self.findChild(QLineEdit, "b")
-        self.discription = self.findChild(QLineEdit, "discription")
-        self.quantity = self.findChild(QLineEdit, "quantity")
-        self.category = self.findChild(QLineEdit, "category")
-        self.price = self.findChild(QLineEdit, "price")
-        self.discount = self.findChild(QLineEdit, "discount")
+        self.populateCols()
+        # self.name = self.findChild(QLineEdit, "name")
+        # self.color = self.findChild(QComboBox, "color")
+        # self.size = self.findChild(QComboBox, "size")
+        # self.brand = self.findChild(QLineEdit, "b")
+        # self.discription = self.findChild(QLineEdit, "discription")
+        # self.quantity = self.findChild(QLineEdit, "quantity")
+        # self.category = self.findChild(QLineEdit, "category")
+        # self.price = self.findChild(QLineEdit, "price")
+        # self.discount = self.findChild(QLineEdit, "discount")
         self.clos=self.findChild(QPushButton,"close")
         self.save_button.clicked.connect(self.save_item)
         self.save_button.clicked.connect(self.insert_product)
         self.clos.clicked.connect(self.closing)
 
     def save_item(self):
+     
         item_details = {
             'name': self.name.text(),
-            'category': self.category.text(),
+            'category': self.category.currentText()[0],
             'color': self.color.currentText(),
-            'size': self.sizee.currentText(),
-            'brand': self.brand.text(),
-            'quantity': self.quantity.text(),
+            'size': self.size.text(),
+            'brand': self.brand.currentText()[0],
+            'quantity': self.Quantity.value(),
             'price': self.price.text()
 
         }
         self.itemAdded.emit(item_details)
-
-    def insert_product(self):
-        print("check point..")
-        try:
-            # Establish a connection to the database
-            connection = pyodbc.connect(connection_string)
-
-            # Create a cursor to interact with the database
-            cursor = connection.cursor()
-
-            new_product = (
-               # int(self.P_id.text()),  # Assuming ProductID is an integer
-                str(self.name.text()),  # Assuming Name is a varchar
-                str(self.category.text()),  # Assuming Category is a varchar
-                str(self.discription.text()),  # Assuming Description is text
-                str(self.sizee.currentText()),  # Assuming Size is char
-                str(self.color.currentText()),  # Assuming Color is varchar
-                float(self.price.text()),  # Assuming Price is a float
-                float(self.discount.text()),  # Assuming Discount is a double
-                int(self.quantity.text())  # Assuming Quantity is an integer
-            )
-            
-            insert_query = """
-                            INSERT INTO products
-                            ( [name], [category], [description], [size], [color], [price], [discount], [quantity_in_stock,] )
-                            VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)
-                        """
-            
-            cursor.execute(insert_query, new_product)
-            connection.commit()  # Commit the transaction
-            cursor.execute("SELECT TOP 1 id FROM products ORDER BY id DESC")
-            self.productid = cursor.fetchone()
-            
-            
-
-            # Extract the ID value from the tuple fetched
-            if self.productid:
-                
-                self.product_id1 = self.productid[0]  # Extracting the ID value
-                print(self.productid1, 'jajka')
-
-            # Insert into PRODUCT_BRANDS using the retrieved product_id and self.brand
-            insert_brand_query = "INSERT INTO PRODUCT_BRANDS VALUES (?, ?)"
-            cursor.execute(insert_brand_query, (self.product_id1, self.brand))
-           
+    def populateCols(self):
         
-            connection.commit()
+           
+        connection = pyodbc.connect(connection_string)
 
-            
+        # Create a cursor to interact with the database
+        cursor = connection.cursor()
+        
+        cursor.execute("SELECT id,name from categories;")
+        # Fetch all the results and append each (id, name) tuple to the list
+        self.categoryList = []
+        for row in cursor.fetchall():
+            category_id = row[0]
+            category_name = row[1]
+            category_tuple = (category_id, category_name)
+            self.categoryList.append(category_tuple)
+        print("categories available",self.categoryList)
+        
+        self.colorList  =[
+            'Red',
+            'Blue',
+            'Green',
+            'Yellow',
+            'Black',
+            'White',
+            'Orange',
+            'Purple',
+            'Pink',
+            'Brown',
+            'Gray',
+            'Cyan',
+            'Magenta',
+            'Lime',
+            'Teal',
+            'Olive',
+            'Maroon',
+            'Navy',
+            'Aquamarine',
+            'Turquoise',
+            'Silver',
+            'Gold',
+            'Indigo',
+            'Violet',
+            'Beige',
+            'Tan',
+            'Khaki',
+            'Coral',
+            'Salmon',
+            'Slate',
+            'Ivory',
+            'Lavender',
+            'Periwinkle',
+            'Plum',
+            'Mint',
+            'Chartreuse',
+            'Mauve',
+            'Apricot',
+            'Crimson',
+            'Azure',
+            'Sienna',
+            'Cerulean'
+        ]
+        cursor.execute("select id, brand_name from brands;")
+        self.brandsList =[]
+        for row in cursor.fetchall():
+            brand_id = row[0]
+            brand_name = row[1]
+            brand_tuple = (brand_id, brand_name)
+            self.brandsList.append(brand_tuple)
+        print("Brands available",self.brandsList)
+        # Add each category 
+        for category in self.categoryList:
+            self.category.addItem(str(category))  # Add category as an item
+        # Add each brand 
+        for brand in self.brandsList:
+            self.brand.addItem(str(brand))  # Add brand as an item
+        # Add each color 
+        for color in self.colorList:
+            self.color.addItem(str(color))  # Add color as an item
+        
+    def insert_product(self):
+       
 
+        # sql_query = 'select categoryID from Category where categoryName = (?)'
+        # cursor.execute(sql_query, (category,))
+        # categoryID = cursor.fetchone()
+        # categoryID = categoryID[0] if categoryID else None
 
+      
+
+        self.msg.show()
+        self.PopulateProductTable()
+
+        print("check point..")
+   
+        # Establish a connection to the database
+        connection = pyodbc.connect(connection_string)
+
+        # Create a cursor to interact with the database
+        cursor = connection.cursor()
+        
+        self.name.setPlaceholderText("Enter Full name of product")
+        self.category.setPlaceholderText("Enter the category ID")
+        self.discription.setPlaceholderText("Enter product description ")
+        self.size.setPlaceholderText("e.g L for large, XL for extra small")
+        # self.color.setPlaceholderText()
+        self.price.setPlaceholderText("e.g 100.00")
+        self.discount.setPlaceholderText("e.g 00.00")
+        # self.quantity.setPlaceholderText("enter an integer value")
+        # self.category.setPlaceholderText("Enter the category ID")
+        # self.color.setPlaceholderText()
+        self.price.setPlaceholderText("e.g 100.00")
+        self.discount.setPlaceholderText("e.g 00.00")
+        
+        self.msg = QtWidgets.QMessageBox()
+        # insert the categories in category spin box 
+        # insert the brand ids in brand spin box
+            # Clear the existing items in the spin box
+        self.category.clear()
+        self.color.clear()
+        self.brand.clear()
+
+        # cursor.execute("SELECT id,name from categories;")
+        # # Fetch all the results and append each (id, name) tuple to the list
+        # for row in cursor.fetchall():
+        #     category_id = row[0]
+        #     category_name = row[1]
+        #     category_tuple = (category_id, category_name)
+        #     self.categoryList.append(category_tuple)
+        # print("categories available",self.categoryList)
+                    
+        
+        
+        
+        # self.colorList  [
+        #     'Red',
+        #     'Blue',
+        #     'Green',
+        #     'Yellow',
+        #     'Black',
+        #     'White',
+        #     'Orange',
+        #     'Purple',
+        #     'Pink',
+        #     'Brown',
+        #     'Gray',
+        #     'Cyan',
+        #     'Magenta',
+        #     'Lime',
+        #     'Teal',
+        #     'Olive',
+        #     'Maroon',
+        #     'Navy',
+        #     'Aquamarine',
+        #     'Turquoise',
+        #     'Silver',
+        #     'Gold',
+        #     'Indigo',
+        #     'Violet',
+        #     'Beige',
+        #     'Tan',
+        #     'Khaki',
+        #     'Coral',
+        #     'Salmon',
+        #     'Slate',
+        #     'Ivory',
+        #     'Lavender',
+        #     'Periwinkle',
+        #     'Plum',
+        #     'Mint',
+        #     'Chartreuse',
+        #     'Mauve',
+        #     'Apricot',
+        #     'Crimson',
+        #     'Azure',
+        #     'Sienna',
+        #     'Cerulean'
+        # ]
+        # cursor.execute("select id,name from brands;")
+        # for row in cursor.fetchall():
+        #     brand_id = row[0]
+        #     brand_name = row[1]
+        #     brand_tuple = (category_id, category_name)
+        #     self.brand.append(brand_tuple)
+        # print("Brands available",self.brandsList)
+        # # Add each category 
+        # for category in self.categoryList:
+        #     self.category.addItem(str(category))  # Add category as an item
+        # # Add each brand 
+        # for brand in self.brandsList:
+        #     self.brand.addItem(str(brand))  # Add brand as an item
+        # # Add each color 
+        # for color in self.colorList:
+        #     self.color.addItem(str(color))  # Add color as an item
+
+        self.name_value =  self.name.text()  # Assuming Name is a varchar
+        self.category_value =   (self.category.currentText() )[0]
+        self.description_value =  self.discription.text()
+        self.brand_value = (self.brand.currentText() )[0]
+        self.size_value = self.size.text()
+        self.color_value = self.color.currentText()   
+        self.price_value = self.price.text()
+        self.discount_value = self.discount.text()
+        self.quantity_value =  self.quantity.value()
+        
+        
+        if self.name_value == '' or self.category_value == '' or self.description_value == '' or  self.size_value == '' or  self.price_value == '' or  self.quantity_value == '' or  self.discount_value == '':
+            self.msg.setWindowTitle("Error")
+            self.msg.setText("Please enter complete information.")   
+
+        elif self.is_float(self.price_value) == False or self.is_float(self.discount_value) == False:
+            self.msg.setWindowTitle("Error")
+            self.msg.setText("Price and quantity produced should be in decimal")   
+
+        elif not self.size_value.isdigit() or len(self.size_value) >3:
+            self.msg.setWindowTitle("Error")
+            self.msg.setText("Enter size as L, M, S, XL , XS etc.")   
+        else:
+              try:
+                    new_product = (
+                    # int(self.P_id.text()),  # Assuming ProductID is an integer
+                        str(self.name_value),  # Assuming Name is a varchar
+                        int(self.category_value) ,
+                        str(self.description_value), 
+                        str(self.size_value) ,
+                        str(self.color_value) ,
+                        float(self.price_value), 
+                        float(self.discount_value), 
+                        int(self.quantity_value )
+                      
+                    )
+                    
+                    insert_query = """
+                                    INSERT INTO products
+                                    ( [name], [category], [description], [size], [color], [price], [discount], [quantity_in_stock,] )
+                                    VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)
+                                """
+                    
+                    cursor.execute(insert_query, new_product)
+                    connection.commit()  # Commit the transaction
+                    cursor.execute("SELECT TOP 1 id FROM products ORDER BY id DESC")
+                    self.productid = cursor.fetchone()
+                    
+                    
+
+                    # Extract the ID value from the tuple fetched
+                    if self.productid:
+                        
+                        self.product_id1 = self.productid[0]  # Extracting the ID value
+                        print(self.productid1, 'jajka')
+
+                    # Insert into PRODUCT_BRANDS using the retrieved product_id and self.brand
+                    insert_brand_query = "INSERT INTO PRODUCT_BRANDS VALUES (?, ?)"
+                    cursor.execute(insert_brand_query, (self.product_id1, self.brand))
+                
+                
+                    connection.commit()
             # Display a success message box
-            QMessageBox.information(self, "Success", "Product added successfully!")
+                    QMessageBox.information(self, "Success", "Product added successfully!")
 
-            # Clear all fields
-            self.P_id.clear()
-            self.name.clear()
-            self.category.clear()
-            self.discription.clear()
-            self.sizee.setCurrentIndex(0)  # Assuming the default index is 0
-            self.color.setCurrentIndex(0)  # Assuming the default index is 0
-            self.price.clear()
-            self.discount.clear()
-            self.quantity.clear()
-            self.brand.clear()
-
-
+                    # Clear all fields
+             
+                    self.name.clear()
+                    self.category.setCurrentIndex(0)
+                    self.discription.clear()
+                    self.size.clear(0)  # Assuming the default index is 0
+                    self.color.setCurrentIndex(0)  # Assuming the default index is 0
+                    self.price.clear()
+                    self.discount.clear()
+                    self.quantity.clear()
+                    self.brand.setCurrentIndex(0)
 
 
-        except Exception as e:
-            print(f"Error inserting product: {e}")
-
-        finally:
-            # Close the connection in the finally block to ensure it happens even if an exception occurs
-            connection.close()
 
 
+              except Exception as e:
+                    print(f"Error inserting product: {e}")
+
+              finally:
+                # Close the connection in the finally block to ensure it happens even if an exception occurs
+                 connection.close()
+
+    def is_float(value):
+        if isinstance(value, str) and value.replace('.', '', 1).isdigit():
+            return True
+        return False
     def closing(self):
         self.hide() 
 
