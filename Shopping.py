@@ -236,8 +236,8 @@ class Shopping1(QtWidgets.QMainWindow):
                                 self.grossTotal = ele[-1]
                                 self.paymentMethod = "cash"
                                 self.status = "pending"
-                                self.shipDate = None
-                                self.shipVia = "PAKISTAN POST"
+                                self.shipDate ='still None'
+                                self.shipVia = "PAKISTAN POST" # default is Pak post else the admin can edit it
                                 self.shipperID = 1
                                 # Get the current date
                                 current_date = QDate.currentDate()
