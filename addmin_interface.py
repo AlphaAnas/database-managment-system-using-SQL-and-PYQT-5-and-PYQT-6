@@ -525,7 +525,7 @@ class addScreen(QtWidgets.QMainWindow):
         
 
 
-# # Create an instance of QtWidgets . QApplication
-app = QtWidgets.QApplication(sys.argv)
-window = UI() # Create an instance of our class
-app.exec() # Start the application
+# # # Create an instance of QtWidgets . QApplication
+# app = QtWidgets.QApplication(sys.argv)
+# window = UI() # Create an instance of our class
+# app.exec() # Start the application
