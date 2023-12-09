@@ -12,12 +12,24 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 600)
+        MainWindow.resize(800, 601)
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.textEdit = QtWidgets.QTextEdit(parent=self.centralwidget)
-        self.textEdit.setGeometry(QtCore.QRect(210, 140, 421, 191))
-        self.textEdit.setObjectName("textEdit")
+        self.label_4 = QtWidgets.QLabel(parent=self.centralwidget)
+        self.label_4.setGeometry(QtCore.QRect(20, 20, 381, 521))
+        self.label_4.setStyleSheet("background-color:rgba(0,0,0,80);\n"
+"border-top-left-radius: 50px;")
+        self.label_4.setText("")
+        self.label_4.setObjectName("label_4")
+        self.text = QtWidgets.QTextEdit(parent=self.centralwidget)
+        self.text.setGeometry(QtCore.QRect(440, 150, 311, 111))
+        self.text.setObjectName("text")
+        self.Logout = QtWidgets.QPushButton(parent=self.centralwidget)
+        self.Logout.setGeometry(QtCore.QRect(460, 410, 101, 41))
+        self.Logout.setObjectName("Logout")
+        self.continueShopping = QtWidgets.QPushButton(parent=self.centralwidget)
+        self.continueShopping.setGeometry(QtCore.QRect(640, 410, 141, 41))
+        self.continueShopping.setObjectName("continueShopping")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 26))
@@ -33,8 +45,10 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.textEdit.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+        self.text.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600; text-decoration: underline;\">SHER ALI KI SCREEN</span></p></body></html>"))
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt; font-weight:600;\">Thanks for ordering from POSHAAK.</span></p></body></html>"))
+        self.Logout.setText(_translate("MainWindow", "Logout"))
+        self.continueShopping.setText(_translate("MainWindow", "Continue Shopping"))

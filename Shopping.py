@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidge
 import sys
 import connection_string
 import Payment
+import lastscreen
 import pyodbc
 
 server = 'DESKTOP-6367D0S'
@@ -27,7 +28,8 @@ class Shopping1(QtWidgets.QMainWindow):
         super(Shopping1, self).__init__() 
         # Load the .ui file
         uic.loadUi('Shopping.ui', self) 
-    
+        self.setWindowTitle("Shopping Cart")
+        self.rows = 0
         self.total_bill_amount =0 
     
         self.customer_id = customer_id
@@ -71,16 +73,15 @@ class Shopping1(QtWidgets.QMainWindow):
         
           
         print(self.customer_id, 'customer id2')
-        cursor.execute( " SELECT product_id FROM cart WHERE customer_id = ?  GROUP BY product_id;", self.customer_id)
+        cursor.execute( " SELECT ALL product_id FROM cart WHERE customer_id = ?;", self.customer_id)
        
         entry_ids = cursor.fetchall()
       
       
-        print(entry_ids,'productid')
     
         for entry_id in entry_ids:
             entry_id = entry_id[0]
-            print(entry_id)
+            print(entry_id, "entry ids in cart")
             cursor.execute("SELECT * FROM products WHERE id = ?", entry_id)
             product_details = cursor.fetchone()
             if product_details:  
@@ -153,7 +154,7 @@ class Shopping1(QtWidgets.QMainWindow):
     def delete(self):
         connection = pyodbc.connect(connection_string)
         cursor = connection.cursor()
-        cursor.execute("select count(entry_id) as number from cart; " )
+        cursor.execute("select count(entry_id) as number from cart where customer_id = ?; ",self.customer_id )
         number = cursor.fetchone()
         print("elements in the cart : ", number)
         if number[0] == 0:
@@ -163,11 +164,12 @@ class Shopping1(QtWidgets.QMainWindow):
             warning.setStandardButtons(QMessageBox.StandardButton.Ok)
             warning.setIcon(QMessageBox.Icon.Warning)
             dlg = warning.exec()
+            return
         connection.close()
-                                
-        selected_row = self.itemWidget.currentRow()
-      
-        if selected_row == None:
+        selected_indexes =None            
+        selected_indexes = self.itemWidget.selectedIndexes()
+        print(selected_indexes)
+        if selected_indexes == None or selected_indexes == []:
                     warning = QMessageBox(self)
                     warning.setWindowTitle("Invalid !")
                     warning.setText("Please select a row to delete !! ")
@@ -176,36 +178,43 @@ class Shopping1(QtWidgets.QMainWindow):
                     dlg = warning.exec()
         else:
             
-                if selected_row >= 0:
-                    primary_key_item = self.itemWidget.item(selected_row, 0)  # Assuming primary key is in the first column (index 0)
-                    if primary_key_item is not None:
-                        primary_key_value = primary_key_item.text()
-                        print(primary_key_value)
-                        if self.show_warning:
-                        
-                            # Delete from the database
-                            connection = pyodbc.connect(connection_string)
-                            cursor = connection.cursor()
-                            cursor.execute("DELETE FROM cart WHERE product_id = ?", primary_key_value)
-                            print("deleted id is : ", primary_key_value)
-                            connection.commit()
+                if len(selected_indexes) >= 0:
+                    for primary_key_item in selected_indexes:
+                        row = primary_key_item.row() 
+                        print(primary_key_item , "item to be deleted")
+                        primary_key_item = self.itemWidget.item(row, 0)  # Assuming primary key is in the first column (index 0)
+                        if primary_key_item is not None:
+                            primary_key_value = primary_key_item.text()
+                            print(primary_key_value)
+                            if self.show_warning:
                             
-                            # Remove row from the UI
-                            self.itemWidget.removeRow(selected_row)
-                            msg = QtWidgets.QMessageBox()
-                            msg.setText(f"product deleted with id = {primary_key_value}")
-                            msg.setWindowTitle("Item Deleted")
-                            msg.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
-                            msg.exec()
-                            
-                            # Recalculate the total bill after deletion
-                            total_bill_amount = self.calculate_bill()
+                                # Delete from the database
+                                connection = pyodbc.connect(connection_string)
+                                cursor = connection.cursor()
+                                cursor.execute("DELETE FROM cart WHERE product_id = ?", primary_key_value)
+                                connection.commit()
+                                connection.close()
 
-                            self.total.setText(str(total_bill_amount))
+                                print("deleted id is : ", primary_key_value)
+                                # Hide row in the UI instead of removing it
+                                self.itemWidget.hideRow(row)
                             
-                            connection.commit()
-                            connection.close()
+                                
+                                # Remove row from the UI
+                                # self.itemWidget.removeRow(selected_row)
+                                msg = QtWidgets.QMessageBox()
+                                msg.setText(f"product deleted with id = {primary_key_value}")
+                                msg.setWindowTitle("Item Deleted")
+                                msg.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+                                msg.exec()
+                                
+                                # Recalculate the total bill after deletion
+                                total_bill_amount = self.calculate_bill()
 
+                                self.total.setText(str(total_bill_amount))
+                            
+                       
+                          
             
            
 
@@ -241,15 +250,28 @@ class Shopping1(QtWidgets.QMainWindow):
                                 cursor.commit()
                                 cursor.execute("select max(order_id) from orders where customer_id = ?", self.customer_id)
                                 self.orderid = cursor.fetchone()[0]
+                                if self.orderid>0:
+                                    self.flag = True
+                            if self.flag:
                                 warning = QMessageBox(self)
                                 warning.setWindowTitle("Order Placed")
                                 warning.setText(f"Your order has been placed with orderID {self.orderid} !! ")
                                 warning.setStandardButtons(QMessageBox.StandardButton.Ok)
                                 warning.setIcon(QMessageBox.Icon.Warning)
                                 dlg = warning.exec()
-                                
-                                
-                                cursor.execute("DELETE FROM CART")
+                            else:
+                                warning = QMessageBox(self)
+                                warning.setWindowTitle("Order Aborted! ")
+                                warning.setText(f"Your order has been aborted ! we are very sorry for inconvenience! Check again other time ")
+                                warning.setStandardButtons(QMessageBox.StandardButton.Ok)
+                                warning.setIcon(QMessageBox.Icon.Warning)
+                                dlg = warning.exec()
+                            
+                            
+                            cursor.execute("DELETE FROM CART")
+                            print("all Elements deleted from cart for the customer :",self.customer_id)
+                            self.LASTSCREEN = lastscreen.lastclass(self.orderid)
+                            self.LASTSCREEN.show()
                         else:
                                 warning = QMessageBox(self)
                                 warning.setWindowTitle("Empty Cart")
@@ -276,7 +298,7 @@ class Shopping1(QtWidgets.QMainWindow):
                     warning = QMessageBox(self)
                     warning.setWindowTitle("Message Box")
                     warning.setText("Are you sure you want to delete this row !! ")
-                    warning.setStandardButtons(QMessageBox.StandardButton.Ok)
+                    warning.setStandardButtons(QMessageBox.StandardButton.Ok, QMessageBox.StandardButton.Cancel)
                     warning.setIcon(QMessageBox.Icon.Warning)
                     dlg = warning.exec()
                     if dlg == QMessageBox.StandardButton.Ok:

@@ -26,6 +26,8 @@ class UI(QtWidgets.QMainWindow):
         super(UI, self).__init__()
         # Load the .ui file
         uic.loadUi('Catalogue_screen.ui', self)
+        
+        self.setWindowTitle("Products ")
         # Show the 
         self.customer_id = customer_id
         self.show()
@@ -119,6 +121,8 @@ class UI(QtWidgets.QMainWindow):
 
 
                 QMessageBox.information(self, "Success", "Product has been added to the cart successfully!")
+                # set the add to cart button disabled
+                self.cart_but.setDisabled(True)
                 self.cart = Shopping.Shopping1(self.customer_id)
                 self.cart.show()
                
