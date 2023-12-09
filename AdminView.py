@@ -112,6 +112,11 @@ class AdminView1(QMainWindow):
         # Getting the entered CustomerID from the CustomerIDLineEdit
         customer_id = self.CustomerIDLineEdit.text()
 
+        # Validate if customer_id is an integer
+        if not customer_id.isdigit():
+            QMessageBox.warning(self, "Input Error", "Customer ID should be a number.")
+            return
+
         # Constructing the SQL query based on the entered CustomerID
         if not customer_id:
             sql_query = "SELECT * FROM Customers"
@@ -129,6 +134,11 @@ class AdminView1(QMainWindow):
         # Getting the entered ShipperID from the ShipperIDLineEdit
         shipper_id = self.ShipperIDLineEdit.text()
 
+        # Validate if shipper_id is an integer
+        if not shipper_id.isdigit():
+            QMessageBox.warning(self, "Input Error", "Shipper ID should be a number.")
+            return
+
         # Constructing the SQL query based on the entered ShipperID
         if not shipper_id:
             sql_query = "SELECT * FROM Shippers"
@@ -145,6 +155,11 @@ class AdminView1(QMainWindow):
     def show_delivery_areas(self):
         # Getting the entered city from the CityLineEdit
         city = self.CityLineEdit.text()
+
+        # Validate if city is a string
+        if not city.isalpha():
+            QMessageBox.warning(self, "Input Error", "City should contain only alphabetic characters.")
+            return
 
         # Constructing the SQL query based on the entered city
         if not city:
@@ -297,6 +312,9 @@ class ShipperInsertWindow(QMainWindow):
             shipper_id = int(shipper_id)
             contact_number = int(contact_number)
             # Ensure other validations as needed for your specific case
+            if not email.endswith("@gmail.com"):
+                QMessageBox.warning(self, "Insert Warning", "Email should end with '@gmail.com'.")
+                return
 
             # Insert data into the Shippers table
             sql_query = f"INSERT INTO Shippers (id, name, contact_number, email) VALUES ({shipper_id}, '{shipper_name}', {contact_number}, '{email}')"
