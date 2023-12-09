@@ -31,16 +31,16 @@
       <rect>
        <x>1459</x>
        <y>220</y>
-       <width>131</width>
-       <height>22</height>
+       <width>161</width>
+       <height>31</height>
       </rect>
      </property>
     </widget>
     <widget class="QLabel" name="OrderDateLabel">
      <property name="geometry">
       <rect>
-       <x>1360</x>
-       <y>220</y>
+       <x>1350</x>
+       <y>230</y>
        <width>91</width>
        <height>21</height>
       </rect>
@@ -52,7 +52,7 @@
     <widget class="QTableWidget" name="OrdersTableWidget">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>90</x>
        <y>20</y>
        <width>1581</width>
        <height>191</height>
@@ -61,11 +61,6 @@
      <column>
       <property name="text">
        <string>order_id</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>cart_id</string>
       </property>
      </column>
      <column>
@@ -95,12 +90,12 @@
      </column>
      <column>
       <property name="text">
-       <string>shipCity</string>
+       <string>shipDate</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>shipDate</string>
+       <string>ShipVia</string>
       </property>
      </column>
      <column>
@@ -357,7 +352,7 @@
        <x>640</x>
        <y>210</y>
        <width>113</width>
-       <height>20</height>
+       <height>31</height>
       </rect>
      </property>
     </widget>
