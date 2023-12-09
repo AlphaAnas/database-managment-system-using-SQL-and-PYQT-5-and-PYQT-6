@@ -38,12 +38,12 @@ class AdminView1(QMainWindow):
         self.view_product=self.findChild(QPushButton,"ViewProductsButton")
         self.view_product.clicked.connect(self.open_products_screen)
 
-        # Connecting delete buttons to their respective functions
-        self.OrdersDeleteButton.clicked.connect(self.delete_selected_orders)
-        self.ShippersDeleteButton.clicked.connect(self.delete_selected_shippers)
-        self.CategoryDeleteButton.clicked.connect(self.delete_selected_categories)
-        self.CustomersDeleteButton.clicked.connect(self.delete_selected_customers)
-        self.DeliveryDeleteButton.clicked.connect(self.delete_selected_delivery_areas)
+        # # Connecting delete buttons to their respective functions
+        self.OrdersDeleteButton.clicked.connect(self.delete_func)
+        self.ShippersDeleteButton.clicked.connect(self.delete_func)
+        self.CategoryDeleteButton.clicked.connect(self.delete_func)
+        self.CustomersDeleteButton.clicked.connect(self.delete_func)
+        self.DeliveryDeleteButton.clicked.connect(self.delete_func)
 
         # Connecting insert buttons to their respective functions
         self.ShipperInsertButton.clicked.connect(self.open_shipper_insert_window)
@@ -51,7 +51,10 @@ class AdminView1(QMainWindow):
         self.DeliveryInsertButton.clicked.connect(self.open_delivery_insert_window)
 
         self.show_data()
-        
+    def delete_func(self):
+            QMessageBox.warning(self, "Input Error", "You do not have permission to delete")
+            return
+
     def open_products_screen(self):
         self.pro_screen = addmin_interface.UI()
         self.pro_screen.show()

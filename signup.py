@@ -127,7 +127,7 @@ class CustomerInterface(QtWidgets.QMainWindow):
                         self.error.setText(self.text)
                         self.error.show()
                 elif  self.validate_password(self.password_field) == False:
-                        self.text = "Invalid Password ! "
+                        self.text = " Password should contain Upper case, lower case, digit and special character ! "
                         self.error = QtWidgets.QMessageBox()
                         self.error.setWindowTitle('Error')
                         self.error.setText(self.text)
