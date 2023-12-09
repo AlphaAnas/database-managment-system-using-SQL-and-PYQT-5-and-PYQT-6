@@ -33,6 +33,7 @@ class AdminView1(QMainWindow):
         # Connecting buttons to their respective functions
         self.ClearButton.clicked.connect(self.clear_data)
         self.ShowButton.clicked.connect(self.show_data)
+        self.BackButton.clicked.connect(self.hide)
         
         self.view_product=self.findChild(QPushButton,"ViewProductsButton")
         self.view_product.clicked.connect(self.open_products_screen)
@@ -167,7 +168,7 @@ class AdminView1(QMainWindow):
 
         # Constructing the SQL query based on the entered city
         if city:
-            sql_query = f"SELECT * FROM [Delivery Areas] WHERE city = '{city}'"
+            sql_query = f"SELECT * FROM [Delivery Areas] WHERE city LIKE '%{city}%'"
         else:
             sql_query = "SELECT * FROM [Delivery Areas]"
 
@@ -314,19 +315,29 @@ class ShipperInsertWindow(QMainWindow):
         # Validate data types and insert into the Shippers table
         try:
             shipper_id = int(shipper_id)
-            contact_number = int(contact_number)
-            # Ensure other validations as needed for your specific case
-            if not email.endswith("@gmail.com"):
-                QMessageBox.warning(self, "Insert Warning", "Email should end with '@gmail.com'.")
-                return
+    
+            if 0 <= shipper_id <= 999:
+                contact_number = int(contact_number)
+                
+                # Validate that contact_number is not more than 11 digits
+                if 0 <= contact_number <= 99999999999:
+                    
+                    # Ensure other validations as needed for your specific case
+                    if not email.endswith("@gmail.com"):
+                        QMessageBox.warning(self, "Insert Warning", "Email should end with '@gmail.com'.")
+                        return
 
-            # Insert data into the Shippers table
-            sql_query = f"INSERT INTO Shippers (id, name, contact_number, email) VALUES ({shipper_id}, '{shipper_name}', {contact_number}, '{email}')"
-            self.parent.cursor.execute(sql_query)
-            self.parent.conn.commit()
+                    # Insert data into the Shippers table
+                    sql_query = f"INSERT INTO Shippers (id, name, contact_number, email) VALUES ({shipper_id}, '{shipper_name}', {contact_number}, '{email}')"
+                    self.parent.cursor.execute(sql_query)
+                    self.parent.conn.commit()
 
-            QMessageBox.information(self, "Insert Successful", "Shipper inserted successfully!")
-            self.close()
+                    QMessageBox.information(self, "Insert Successful", "Shipper inserted successfully!")
+                    self.close()
+                else:
+                    QMessageBox.warning(self, "Insert Warning", "Contact number should be up to 11 digits.")
+            else:
+                QMessageBox.warning(self, "Insert Warning", "Shipper ID should be a 3-digit number.")
 
         except ValueError:
             QMessageBox.warning(self, "Insert Warning", "Invalid data types. Please enter valid data.")
@@ -350,15 +361,18 @@ class CategoryInsertWindow(QMainWindow):
         # Validate data types and insert into the Categories table
         try:
             category_id = int(category_id)
-            # Ensure other validations as needed for your specific case
+            if 0 <= category_id <= 999:
+                # Ensure other validations as needed for your specific case
 
-            # Insert data into the Categories table
-            sql_query = f"INSERT INTO Categories (id, name, description) VALUES ({category_id}, '{category_name}', '{category_description}')"
-            self.parent.cursor.execute(sql_query)
-            self.parent.conn.commit()
+                # Insert data into the Categories table
+                sql_query = f"INSERT INTO Categories (id, name, description) VALUES ({category_id}, '{category_name}', '{category_description}')"
+                self.parent.cursor.execute(sql_query)
+                self.parent.conn.commit()
 
-            QMessageBox.information(self, "Insert Successful", "Category inserted successfully!")
-            self.close()
+                QMessageBox.information(self, "Insert Successful", "Category inserted successfully!")
+                self.close()
+            else:
+                 QMessageBox.warning(self, "Insert Warning", "Category ID should be a 3-digit number.")
 
         except ValueError:
             QMessageBox.warning(self, "Insert Warning", "Invalid data types. Please enter valid data.")
@@ -386,12 +400,14 @@ class DeliveryInsertWindow(QMainWindow):
         try:
             delivery_charges = float(delivery_charges)  # Assuming charges are in float format
             # Ensure other validations as needed for your specific case
-
-            # Insert data into the [Delivery Areas] table
-            sql_query = f"INSERT INTO [Delivery Areas] (city, area, country, postal_code, delivery_charges, possible) " \
-                        f"VALUES ('{city}', '{area}', '{country}', '{postal_code}', {delivery_charges}, {possible})"
-            self.parent.cursor.execute(sql_query)
-            self.parent.conn.commit()
+            if 0 <= len(postal_code) <= 5:
+                # Insert data into the [Delivery Areas] table
+                sql_query = f"INSERT INTO [Delivery Areas] (city, area, country, postal_code, delivery_charges, possible) " \
+                            f"VALUES ('{city}', '{area}', '{country}', '{postal_code}', {delivery_charges}, {possible})"
+                self.parent.cursor.execute(sql_query)
+                self.parent.conn.commit()
+            else:
+                QMessageBox.warning(self, "Insert Warning", "Postal code should be up to 5 digits.")
 
             QMessageBox.information(self, "Insert Successful", "Delivery Area inserted successfully!")
             self.close()
