@@ -443,8 +443,17 @@ class addScreen(QtWidgets.QMainWindow):
         elif self.is_float(self.price_value) == False or self.is_float(self.discount_value) == False:
             print("1st elif if")
             self.msg.setWindowTitle("Error")
-            self.msg.setText("Price and quantity produced should be in decimal")   
+            self.msg.setText("Price and discounted value should be in decimal")   
 
+        elif self.quantity_value == 0 :
+            print("2nd elif if")
+            self.msg.setWindowTitle("Error")
+            self.msg.setText("Quantity can not be zero")
+               
+
+
+            
+            
         else:
               print("else conditino")
               try:

@@ -312,32 +312,49 @@ class ShipperInsertWindow(QMainWindow):
         contact_number = self.ContactLineEdit.text()
         email = self.EmailLineEdit.text()
 
+        connection = pyodbc.connect(connection_string)
+        cursor = connection.cursor()
+
         # Validate data types and insert into the Shippers table
         try:
             shipper_id = int(shipper_id)
-    
-            if 0 <= shipper_id <= 999:
-                contact_number = int(contact_number)
+            contact_number = int(contact_number)
+            
+            # Check length of contact number and ID
+            if len(str(contact_number)) != 13:
+                QMessageBox.warning(self, "Insert Warning", "Contact number should be 13 digits.")
+                return
+            
+            if len(str(shipper_id)) > 3:
+                QMessageBox.warning(self, "Insert Warning", "ID should be maximum 3 digits.")
+                return
+
+            # Ensure the name contains only letters and spaces
+            if not shipper_name.replace(' ', '').isalpha():
+                QMessageBox.warning(self, "Insert Warning", "Name should contain only letters and spaces.")
+                return
+
+            # Ensure other validations as needed for your specific case
+            if not email.endswith("@gmail.com"):
+                QMessageBox.warning(self, "Insert Warning", "Email should end with '@gmail.com'.")
+                return
                 
-                # Validate that contact_number is not more than 11 digits
-                if 0 <= contact_number <= 99999999999:
-                    
-                    # Ensure other validations as needed for your specific case
-                    if not email.endswith("@gmail.com"):
-                        QMessageBox.warning(self, "Insert Warning", "Email should end with '@gmail.com'.")
-                        return
+            # Check if the ID already exists in the table
+            cursor.execute(f"SELECT id FROM Shippers WHERE id = {shipper_id}")
+            existing_id = cursor.fetchone()
 
-                    # Insert data into the Shippers table
-                    sql_query = f"INSERT INTO Shippers (id, name, contact_number, email) VALUES ({shipper_id}, '{shipper_name}', {contact_number}, '{email}')"
-                    self.parent.cursor.execute(sql_query)
-                    self.parent.conn.commit()
+            if existing_id:
+                # ID already exists, show an error message
+                QMessageBox.warning(self, "Insert Warning", f"Shipper with ID {shipper_id} already exists.")
+                return        
 
-                    QMessageBox.information(self, "Insert Successful", "Shipper inserted successfully!")
-                    self.close()
-                else:
-                    QMessageBox.warning(self, "Insert Warning", "Contact number should be up to 11 digits.")
-            else:
-                QMessageBox.warning(self, "Insert Warning", "Shipper ID should be a 3-digit number.")
+            # Insert data into the Shippers table
+            sql_query = f"INSERT INTO Shippers (id, name, contact_number, email) VALUES ({shipper_id}, '{shipper_name}', {contact_number}, '{email}')"
+            cursor.execute(sql_query)
+            connection.commit()
+
+            QMessageBox.information(self, "Insert Successful", "Shipper inserted successfully!")
+            self.close()
 
         except ValueError:
             QMessageBox.warning(self, "Insert Warning", "Invalid data types. Please enter valid data.")
@@ -357,22 +374,39 @@ class CategoryInsertWindow(QMainWindow):
         category_id = self.IDLineEdit.text()
         category_name = self.NameLineEdit.text()
         category_description = self.DesLineEdit.text()
+        connection = pyodbc.connect(connection_string)
+        cursor = connection.cursor()
 
         # Validate data types and insert into the Categories table
         try:
             category_id = int(category_id)
-            if 0 <= category_id <= 999:
-                # Ensure other validations as needed for your specific case
+            
+            # Check maximum category ID
+            if category_id > 1000:
+                QMessageBox.warning(self, "Insert Warning", "Category ID should be at most 1000.")
+                return
 
-                # Insert data into the Categories table
-                sql_query = f"INSERT INTO Categories (id, name, description) VALUES ({category_id}, '{category_name}', '{category_description}')"
-                self.parent.cursor.execute(sql_query)
-                self.parent.conn.commit()
+            # Ensure the name contains only letters and spaces
+            if not category_name.replace(' ', '').isalpha():
+                QMessageBox.warning(self, "Insert Warning", "Category name should contain only letters and spaces.")
+                return
 
-                QMessageBox.information(self, "Insert Successful", "Category inserted successfully!")
-                self.close()
-            else:
-                 QMessageBox.warning(self, "Insert Warning", "Category ID should be a 3-digit number.")
+            # Check if the ID already exists in the table
+            cursor.execute(f"SELECT id FROM Categories WHERE id = {category_id}")
+            existing_id = cursor.fetchone()
+
+            if existing_id:
+                # ID already exists, show an error message
+                QMessageBox.warning(self, "Insert Warning", f"Category with ID {category_id} already exists.")
+                return  
+
+            # Insert data into the Categories table
+            sql_query = f"INSERT INTO Categories (id, name, description) VALUES ({category_id}, '{category_name}', '{category_description}')"
+            cursor.execute(sql_query)
+            connection.commit()
+
+            QMessageBox.information(self, "Insert Successful", "Category inserted successfully!")
+            self.close()
 
         except ValueError:
             QMessageBox.warning(self, "Insert Warning", "Invalid data types. Please enter valid data.")
@@ -395,19 +429,19 @@ class DeliveryInsertWindow(QMainWindow):
         postal_code = self.PostalLineEdit.text()
         delivery_charges = self.ChargesLineEdit.text()
         possible = self.PossibleLineEdit.text()
+        connection = pyodbc.connect(connection_string)
+        cursor = connection.cursor()
 
         # Validate data types and insert into the [Delivery Areas] table
         try:
             delivery_charges = float(delivery_charges)  # Assuming charges are in float format
             # Ensure other validations as needed for your specific case
-            if 0 <= len(postal_code) <= 5:
-                # Insert data into the [Delivery Areas] table
-                sql_query = f"INSERT INTO [Delivery Areas] (city, area, country, postal_code, delivery_charges, possible) " \
-                            f"VALUES ('{city}', '{area}', '{country}', '{postal_code}', {delivery_charges}, {possible})"
-                self.parent.cursor.execute(sql_query)
-                self.parent.conn.commit()
-            else:
-                QMessageBox.warning(self, "Insert Warning", "Postal code should be up to 5 digits.")
+
+            # Insert data into the [Delivery Areas] table
+            sql_query = f"INSERT INTO [Delivery Areas] (city, area, country, postal_code, delivery_charges, possible) " \
+                        f"VALUES ('{city}', '{area}', '{country}', '{postal_code}', {delivery_charges}, {possible})"
+            cursor.execute(sql_query)
+            connection.commit()
 
             QMessageBox.information(self, "Insert Successful", "Delivery Area inserted successfully!")
             self.close()
