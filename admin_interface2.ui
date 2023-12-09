@@ -287,12 +287,12 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLineEdit" name="size">
+   <widget class="QComboBox" name="size">
     <property name="geometry">
      <rect>
       <x>180</x>
       <y>140</y>
-      <width>113</width>
+      <width>261</width>
       <height>22</height>
      </rect>
     </property>

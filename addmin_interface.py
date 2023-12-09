@@ -34,7 +34,9 @@ class UI(QtWidgets.QMainWindow):
 
         # Connect the view function with the view button.
         self.add_but=self.findChild(QPushButton, "Add_item")
-        self.add_but.clicked.connect(self.additem)
+        self.add_but.clicked.connect(self.additem) 
+      
+        
 
         self.tableWidget = self.findChild(QtWidgets.QTableWidget, "tableWidget")
 
@@ -269,7 +271,7 @@ class addScreen(QtWidgets.QMainWindow):
             'name': self.name.text(),
             'category': self.category.currentText()[0],
             'color': self.color.currentText(),
-            'size': self.size.text(),
+            'size': self.size.currentText(),
             'brand': self.brand.currentText()[0],
             'quantity': self.Quantity.value(),
             'price': self.price.text()
@@ -286,6 +288,9 @@ class addScreen(QtWidgets.QMainWindow):
         
         cursor.execute("SELECT id,name from categories;")
         # Fetch all the results and append each (id, name) tuple to the list
+        
+        self.sizeList=["S","M","L","XL","XS"]
+        
         self.categoryList = []
         for row in cursor.fetchall():
             category_id = row[0]
@@ -346,6 +351,11 @@ class addScreen(QtWidgets.QMainWindow):
             brand_tuple = (brand_id, brand_name)
             self.brandsList.append(brand_tuple)
         print("Brands available",self.brandsList)
+        
+                # Clear the existing items in the spin box
+        self.category.clear()
+        self.color.clear()
+        self.brand.clear()
         # Add each category 
         for category in self.categoryList:
             self.category.addItem(str(category))  # Add category as an item
@@ -355,6 +365,20 @@ class addScreen(QtWidgets.QMainWindow):
         # Add each color 
         for color in self.colorList:
             self.color.addItem(str(color))  # Add color as an item
+            #add each size
+        for size in self.sizeList:
+            self.size.addItem(str(size))  # Add size as an item
+            
+        
+        self.name.setPlaceholderText("Enter Full name of product")
+        self.category.setPlaceholderText("Enter the category ID")
+        self.discription.setPlaceholderText("Enter product description ")
+        # self.size.setPlaceholderText("e.g L for large, XL for extra small")
+        # self.color.setPlaceholderText()
+        self.price.setPlaceholderText("e.g 100.00")
+        self.discount.setPlaceholderText("e.g 00.00")
+            
+        
         
     def insert_product(self):
        
@@ -366,9 +390,6 @@ class addScreen(QtWidgets.QMainWindow):
 
       
 
-        self.msg.show()
-        self.PopulateProductTable()
-
         print("check point..")
    
         # Establish a connection to the database
@@ -377,123 +398,55 @@ class addScreen(QtWidgets.QMainWindow):
         # Create a cursor to interact with the database
         cursor = connection.cursor()
         
-        self.name.setPlaceholderText("Enter Full name of product")
-        self.category.setPlaceholderText("Enter the category ID")
-        self.discription.setPlaceholderText("Enter product description ")
-        self.size.setPlaceholderText("e.g L for large, XL for extra small")
-        # self.color.setPlaceholderText()
-        self.price.setPlaceholderText("e.g 100.00")
-        self.discount.setPlaceholderText("e.g 00.00")
+        # self.name.setPlaceholderText("Enter Full name of product")
+        # self.category.setPlaceholderText("Enter the category ID")
+        # self.discription.setPlaceholderText("Enter product description ")
+        # # self.size.setPlaceholderText("e.g L for large, XL for extra small")
+        # # self.color.setPlaceholderText()
+        # self.price.setPlaceholderText("e.g 100.00")
+        # self.discount.setPlaceholderText("e.g 00.00")
         # self.quantity.setPlaceholderText("enter an integer value")
         # self.category.setPlaceholderText("Enter the category ID")
         # self.color.setPlaceholderText()
-        self.price.setPlaceholderText("e.g 100.00")
-        self.discount.setPlaceholderText("e.g 00.00")
         
         self.msg = QtWidgets.QMessageBox()
-        # insert the categories in category spin box 
-        # insert the brand ids in brand spin box
-            # Clear the existing items in the spin box
-        self.category.clear()
-        self.color.clear()
-        self.brand.clear()
-
-        # cursor.execute("SELECT id,name from categories;")
-        # # Fetch all the results and append each (id, name) tuple to the list
-        # for row in cursor.fetchall():
-        #     category_id = row[0]
-        #     category_name = row[1]
-        #     category_tuple = (category_id, category_name)
-        #     self.categoryList.append(category_tuple)
-        # print("categories available",self.categoryList)
-                    
-        
-        
-        
-        # self.colorList  [
-        #     'Red',
-        #     'Blue',
-        #     'Green',
-        #     'Yellow',
-        #     'Black',
-        #     'White',
-        #     'Orange',
-        #     'Purple',
-        #     'Pink',
-        #     'Brown',
-        #     'Gray',
-        #     'Cyan',
-        #     'Magenta',
-        #     'Lime',
-        #     'Teal',
-        #     'Olive',
-        #     'Maroon',
-        #     'Navy',
-        #     'Aquamarine',
-        #     'Turquoise',
-        #     'Silver',
-        #     'Gold',
-        #     'Indigo',
-        #     'Violet',
-        #     'Beige',
-        #     'Tan',
-        #     'Khaki',
-        #     'Coral',
-        #     'Salmon',
-        #     'Slate',
-        #     'Ivory',
-        #     'Lavender',
-        #     'Periwinkle',
-        #     'Plum',
-        #     'Mint',
-        #     'Chartreuse',
-        #     'Mauve',
-        #     'Apricot',
-        #     'Crimson',
-        #     'Azure',
-        #     'Sienna',
-        #     'Cerulean'
-        # ]
-        # cursor.execute("select id,name from brands;")
-        # for row in cursor.fetchall():
-        #     brand_id = row[0]
-        #     brand_name = row[1]
-        #     brand_tuple = (category_id, category_name)
-        #     self.brand.append(brand_tuple)
-        # print("Brands available",self.brandsList)
-        # # Add each category 
-        # for category in self.categoryList:
-        #     self.category.addItem(str(category))  # Add category as an item
-        # # Add each brand 
-        # for brand in self.brandsList:
-        #     self.brand.addItem(str(brand))  # Add brand as an item
-        # # Add each color 
-        # for color in self.colorList:
-        #     self.color.addItem(str(color))  # Add color as an item
-
         self.name_value =  self.name.text()  # Assuming Name is a varchar
-        self.category_value =   (self.category.currentText() )[0]
+        self.category_value =   (self.category.currentText() )[1]
         self.description_value =  self.discription.text()
-        self.brand_value = (self.brand.currentText() )[0]
-        self.size_value = self.size.text()
+        self.brand_value = (self.brand.currentText())[1]
+        self.size_value = self.size.currentText()
         self.color_value = self.color.currentText()   
         self.price_value = self.price.text()
         self.discount_value = self.discount.text()
-        self.quantity_value =  self.quantity.value()
+        self.quantity_value =  self.Quantity.value()
+        
+        print("second check point....")
+        print(
+        self.name_value ,
+        self.category_value, 
+        self.description_value ,
+        self.brand_value ,
+        self.size_value, 
+        self.color_value ,
+        self.price_value ,
+        self.discount_value ,
+        self.quantity_value )
+        
+        
         
         
         if self.name_value == '' or self.category_value == '' or self.description_value == '' or  self.size_value == '' or  self.price_value == '' or  self.quantity_value == '' or  self.discount_value == '':
+            print("if")
             self.msg.setWindowTitle("Error")
             self.msg.setText("Please enter complete information.")   
 
         elif self.is_float(self.price_value) == False or self.is_float(self.discount_value) == False:
+            print("1st elif if")
             self.msg.setWindowTitle("Error")
             self.msg.setText("Price and quantity produced should be in decimal")   
 
-        elif not self.size_value.isdigit() or len(self.size_value) >3:
-            self.msg.setWindowTitle("Error")
-            self.msg.setText("Enter size as L, M, S, XL , XS etc.")   
         else:
+              print("else conditino")
               try:
                     new_product = (
                     # int(self.P_id.text()),  # Assuming ProductID is an integer
@@ -507,6 +460,7 @@ class addScreen(QtWidgets.QMainWindow):
                         int(self.quantity_value )
                       
                     )
+                    print("insert ki query se pehle",self.name_value)
                     
                     insert_query = """
                                     INSERT INTO products
@@ -515,37 +469,39 @@ class addScreen(QtWidgets.QMainWindow):
                                 """
                     
                     cursor.execute(insert_query, new_product)
+                    print("insert ki query se baaad",self.name_value)
                     connection.commit()  # Commit the transaction
                     cursor.execute("SELECT TOP 1 id FROM products ORDER BY id DESC")
                     self.productid = cursor.fetchone()
-                    
+                    print(self.productid,"<= newly inserted product id")
                     
 
                     # Extract the ID value from the tuple fetched
                     if self.productid:
                         
                         self.product_id1 = self.productid[0]  # Extracting the ID value
-                        print(self.productid1, 'jajka')
+                        print(self.product_id1, 'productid1 to insert')
+                        print(self.brand_value, "brand to insert")
 
-                    # Insert into PRODUCT_BRANDS using the retrieved product_id and self.brand
-                    insert_brand_query = "INSERT INTO PRODUCT_BRANDS VALUES (?, ?)"
-                    cursor.execute(insert_brand_query, (self.product_id1, self.brand))
+                        # Insert into PRODUCT_BRANDS using the retrieved product_id and self.brand
+                        insert_brand_query = "INSERT INTO PRODUCT_BRAND VALUES (?, ?)"
+                        cursor.execute(insert_brand_query, (self.product_id1, self.brand_value))
+                    
                 
-                
-                    connection.commit()
-            # Display a success message box
-                    QMessageBox.information(self, "Success", "Product added successfully!")
+                        connection.commit()
+                # Display a success message box
+                        QMessageBox.information(self, "Success", "Product added successfully!")
 
                     # Clear all fields
              
                     self.name.clear()
                     self.category.setCurrentIndex(0)
                     self.discription.clear()
-                    self.size.clear(0)  # Assuming the default index is 0
+                    self.size.setCurrentIndex(0)  # Assuming the default index is 0
                     self.color.setCurrentIndex(0)  # Assuming the default index is 0
                     self.price.clear()
                     self.discount.clear()
-                    self.quantity.clear()
+                    self.Quantity.clear()
                     self.brand.setCurrentIndex(0)
 
 
@@ -558,7 +514,7 @@ class addScreen(QtWidgets.QMainWindow):
                 # Close the connection in the finally block to ensure it happens even if an exception occurs
                  connection.close()
 
-    def is_float(value):
+    def is_float(self, value):
         if isinstance(value, str) and value.replace('.', '', 1).isdigit():
             return True
         return False
@@ -570,6 +526,6 @@ class addScreen(QtWidgets.QMainWindow):
 
 
 # # Create an instance of QtWidgets . QApplication
-# app = QtWidgets.QApplication(sys.argv)
-# window = UI() # Create an instance of our class
-# app.exec() # Start the application
+app = QtWidgets.QApplication(sys.argv)
+window = UI() # Create an instance of our class
+app.exec() # Start the application
