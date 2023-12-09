@@ -110,18 +110,20 @@ class AdminView1(QMainWindow):
 
     def show_customers(self):
         # Getting the entered CustomerID from the CustomerIDLineEdit
-        customer_id = self.CustomerIDLineEdit.text()
+        customer_id_text = self.CustomerIDLineEdit.text()
 
-        # Validate if customer_id is an integer
-        if not customer_id.isdigit():
+        # Validate if customer_id_text is an integer
+        try:
+            customer_id = int(customer_id_text) if customer_id_text else None
+        except ValueError:
             QMessageBox.warning(self, "Input Error", "Customer ID should be a number.")
             return
 
         # Constructing the SQL query based on the entered CustomerID
-        if not customer_id:
-            sql_query = "SELECT * FROM Customers"
-        else:
+        if customer_id is not None:
             sql_query = f"SELECT * FROM Customers WHERE id = {customer_id}"
+        else:
+            sql_query = "SELECT * FROM Customers"
 
         # Executing the query and populating the CustomersTableWidget
         self.cursor.execute(sql_query)
@@ -132,18 +134,20 @@ class AdminView1(QMainWindow):
 
     def show_shippers(self):
         # Getting the entered ShipperID from the ShipperIDLineEdit
-        shipper_id = self.ShipperIDLineEdit.text()
+        shipper_id_text = self.ShipperIDLineEdit.text()
 
-        # Validate if shipper_id is an integer
-        if not shipper_id.isdigit():
+        # Validate if shipper_id_text is an integer
+        try:
+            shipper_id = int(shipper_id_text) if shipper_id_text else None
+        except ValueError:
             QMessageBox.warning(self, "Input Error", "Shipper ID should be a number.")
             return
 
         # Constructing the SQL query based on the entered ShipperID
-        if not shipper_id:
-            sql_query = "SELECT * FROM Shippers"
-        else:
+        if shipper_id is not None:
             sql_query = f"SELECT * FROM Shippers WHERE id = {shipper_id}"
+        else:
+            sql_query = "SELECT * FROM Shippers"
 
         # Executing the query and populating the ShippersTableWidget
         self.cursor.execute(sql_query)
@@ -153,19 +157,19 @@ class AdminView1(QMainWindow):
                 self.ShippersTableWidget.setItem(row_num, col_num, QTableWidgetItem(str(data)))
 
     def show_delivery_areas(self):
-        # Getting the entered city from the CityLineEdit
+         # Getting the entered city from the CityLineEdit
         city = self.CityLineEdit.text()
 
         # Validate if city is a string
-        if not city.isalpha():
-            QMessageBox.warning(self, "Input Error", "City should contain only alphabetic characters.")
+        if city and not isinstance(city, str):
+            QMessageBox.warning(self, "Input Error", "City should be a string.")
             return
 
         # Constructing the SQL query based on the entered city
-        if not city:
-            sql_query = "SELECT * FROM [Delivery Areas]"
-        else:
+        if city:
             sql_query = f"SELECT * FROM [Delivery Areas] WHERE city = '{city}'"
+        else:
+            sql_query = "SELECT * FROM [Delivery Areas]"
 
         # Executing the query and populating the DeliveryTableWidget
         self.cursor.execute(sql_query)
