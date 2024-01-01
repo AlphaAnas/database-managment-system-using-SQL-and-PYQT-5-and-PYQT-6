@@ -9,11 +9,12 @@ import Payment
 import lastscreen
 import pyodbc
 
-server = 'DESKTOP-6367D0S'
+ # Replace these with your own database connection details
+server = ''
 database = 'POSHAAK'  # Name of your Northwind database
 use_windows_authentication = False  # Set to True to use Windows Authentication
 username = 'sa'  # Specify a username if not using Windows Authentication
-password = 'anasking'  # Specify a password if not using Windows Authentication
+password = ''  # Specify a password if not using Windows Authentication
 
 
 # # Create the connection string based on the authentication method chosen
