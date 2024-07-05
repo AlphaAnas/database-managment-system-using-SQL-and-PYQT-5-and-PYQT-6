@@ -1,4 +1,5 @@
-# POSHAAK-database: https://drive.google.com/file/d/1EUPeucRe1geCzbhzTHgZif6DqzSPcJ8d/view?usp=sharing
+# POSHAAK-database: 
+
 a database management system build using PYQT6 for interface of an online store , POSHAAK, which deals in children clothing as my database final project in university
 
 To run in your local desktop first make a database named POSHAAK and then USE THE DATABASE QUERY in database folder to make the tables on which this project works on 
